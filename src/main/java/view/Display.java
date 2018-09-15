@@ -1,8 +1,6 @@
 package view;
 
-import controllers.AboutControl;
-import controllers.CloseControl;
-import controllers.SelectChannelControl;
+import controllers.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.obj.IChannel;
@@ -50,7 +48,20 @@ public class Display extends JFrame {
         }
 
         // Menu
-        JMenu menuFile = new JMenu("   File   ");
+        JMenu menuFile = new JMenu("   Bot   ");
+
+        JMenuItem username =  new JMenuItem("Username");
+        username.setAccelerator(KeyStroke.getKeyStroke("control N"));
+        username.setToolTipText("Change Username");
+
+        JMenuItem avatar =  new JMenuItem("Avatar");
+        avatar.setAccelerator(KeyStroke.getKeyStroke("control P"));
+        avatar.setToolTipText("Change Avatar");
+
+        JMenuItem dispatcher =  new JMenuItem("Dispatcher");
+        dispatcher.setAccelerator(KeyStroke.getKeyStroke("control D"));
+        dispatcher.setToolTipText("Change Dispatcher");
+
         JMenuItem quit =  new JMenuItem("Quit");
         quit.setAccelerator(KeyStroke.getKeyStroke("control Q"));
         quit.setToolTipText("Close the application");
@@ -61,6 +72,9 @@ public class Display extends JFrame {
         about.setAccelerator(KeyStroke.getKeyStroke("control A"));
         about.setToolTipText("Some informations about this application");
 
+        menuFile.add(username);
+        menuFile.add(avatar);
+        menuFile.add(dispatcher);
         menuFile.add(quit);
         menuOther.add(about);
 
@@ -98,6 +112,9 @@ public class Display extends JFrame {
         getContentPane().add(workPanel, BorderLayout.CENTER);
 
         // Adding some controls
+        username.addActionListener(new UsernameControl());
+        avatar.addActionListener(new AvatarControl());
+        dispatcher.addActionListener(new DispatcherControl());
         CloseControl closeCtrl = new CloseControl(this);
         quit.addActionListener(closeCtrl);
         about.addActionListener(new AboutControl());
@@ -108,7 +125,7 @@ public class Display extends JFrame {
         return chat;
     }
 
-    public synchronized Map<Long, JButton> getButtonsGuild(){
+    private synchronized Map<Long, JButton> getButtonsGuild(){
         return buttonsGuild;
     }
 
