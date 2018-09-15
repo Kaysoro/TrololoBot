@@ -25,8 +25,6 @@ public class ReadyListener {
         LOG.info("Adding listeners...");
         ClientConfig.DISCORD().getDispatcher().registerListener(new GuildCreateListener());
         ClientConfig.DISCORD().getDispatcher().registerListener(new GuildLeaveListener());
-        ClientConfig.DISCORD().getDispatcher().registerListener(new GuildUpdateListener());
-        ClientConfig.DISCORD().getDispatcher().registerListener(new ChannelDeleteListener());
 
         LOG.info("Listening messages...");
         ClientConfig.DISCORD().getDispatcher().registerListener(new MessageListener());
