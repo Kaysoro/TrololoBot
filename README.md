@@ -1,4 +1,4 @@
 # TrololoBOT 
-*Because every*
+*Because too many discord tokens are available.*
 ## Licence
 Under licence GPL(v3).

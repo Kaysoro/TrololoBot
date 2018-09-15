@@ -13,10 +13,6 @@ public class GuildLeaveListener {
 
     private final static Logger LOG = LoggerFactory.getLogger(GuildLeaveListener.class);
 
-    public GuildLeaveListener(){
-        super();
-    }
-
     @EventSubscriber
     public void onReady(GuildLeaveEvent event) {
         LOG.info("[LOSE] **" + event.getGuild().getName() + "** (" + event.getGuild().getUsers().size() +  " users)");

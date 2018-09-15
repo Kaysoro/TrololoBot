@@ -7,9 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import util.ClientConfig;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by kaysoro on 15/09/2018.
@@ -21,6 +24,7 @@ public class Display extends JFrame {
     private JLabel title;
     private JComboBox<IChannel> channels;
     private PanelGuild panelGuild;
+    private Map<Long, JButton> buttonsGuild;
 
     public static synchronized Display getInstance(){
         if (instance == null)
@@ -29,6 +33,7 @@ public class Display extends JFrame {
     }
     private Display(){
         super("TrololoBot");
+        buttonsGuild = new HashMap<>();
 
         // basic parameter window
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -72,7 +77,10 @@ public class Display extends JFrame {
         title.setFont(new Font("Courier", Font.BOLD,12));
         channels = new JComboBox<>();
         channels.addItemListener(new SelectChannelControl());
-        panelGuild = new PanelGuild(title, channels);
+        panelGuild = new PanelGuild();
+        for(IGuild guild : ClientConfig.DISCORD().getGuilds())
+            addGuild(guild);
+
         JScrollPane scrollGuild = new JScrollPane(panelGuild);
         scrollGuild.setPreferredSize(new Dimension(280, 1));
         scrollGuild.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -100,8 +108,12 @@ public class Display extends JFrame {
         return chat;
     }
 
+    public synchronized Map<Long, JButton> getButtonsGuild(){
+        return buttonsGuild;
+    }
+
     public void addGuild(IGuild guild) {
-        panelGuild.addGuild(guild, title, channels);
+        getButtonsGuild().put(guild.getLongID(), panelGuild.addGuild(guild, title, channels));
         panelGuild.revalidate();
     }
 
@@ -113,6 +125,9 @@ public class Display extends JFrame {
             chat.setText("");
         }
 
+        panelGuild.remove(getButtonsGuild().get(guild.getLongID()));
+        getButtonsGuild().remove(guild.getLongID());
         panelGuild.revalidate();
+        panelGuild.repaint();
     }
 }
