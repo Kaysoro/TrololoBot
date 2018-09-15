@@ -1,13 +1,18 @@
 package view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.StatusType;
+import sx.blah.discord.util.DiscordException;
 import util.ClientConfig;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DispatcherDialog extends JDialog {
+
+	private final static Logger LOG = LoggerFactory.getLogger(DispatcherDialog.class);
 
 	public DispatcherDialog() {
 		super();
@@ -37,8 +42,13 @@ public class DispatcherDialog extends JDialog {
 
 		JButton button = new JButton("       OK        ");
 		button.addActionListener(event -> {
+			try {
 			ClientConfig.DISCORD().changePresence((StatusType) statusTypeJComboBox.getSelectedItem(),
 					(ActivityType) activityTypeJComboBox.getSelectedItem(), text.getText());
+			} catch (DiscordException e){
+				LOG.warn("DispatcherDialog", e);
+				JOptionPane.showMessageDialog(this, e.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 			dispose();
 		});
 

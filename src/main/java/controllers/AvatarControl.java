@@ -1,5 +1,8 @@
 package controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.Image;
 import util.ClientConfig;
 import view.Display;
@@ -15,6 +18,8 @@ import java.awt.event.ActionListener;
  */
 public class AvatarControl implements ActionListener {
 
+    private final static Logger LOG = LoggerFactory.getLogger(AvatarControl.class);
+
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
@@ -23,6 +28,12 @@ public class AvatarControl implements ActionListener {
 
         if (fileChooser.showOpenDialog(Display.getInstance()) == JFileChooser.APPROVE_OPTION
                 && fileChooser.getSelectedFile().exists())
-            ClientConfig.DISCORD().changeAvatar(Image.forFile(fileChooser.getSelectedFile()));
+            try {
+                ClientConfig.DISCORD().changeAvatar(Image.forFile(fileChooser.getSelectedFile()));
+            } catch (DiscordException e1){
+                LOG.warn("AvatarControl", e1);
+                JOptionPane.showMessageDialog(null, e1.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
     }
 }

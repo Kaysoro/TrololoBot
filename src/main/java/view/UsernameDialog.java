@@ -1,11 +1,16 @@
 package view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sx.blah.discord.util.DiscordException;
 import util.ClientConfig;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class UsernameDialog extends JDialog {
+
+	private final static Logger LOG = LoggerFactory.getLogger(UsernameDialog.class);
 
 	public UsernameDialog() {
 		super();
@@ -25,8 +30,13 @@ public class UsernameDialog extends JDialog {
 
 		JButton button = new JButton("       OK        ");
 		button.addActionListener(event -> {
-			if (! username.getText().isEmpty())
-				ClientConfig.DISCORD().changeUsername(username.getText());
+			if (! username.getText().isEmpty() && ! username.getText().equals(ClientConfig.DISCORD().getOurUser().getName()))
+				try {
+					ClientConfig.DISCORD().changeUsername(username.getText());
+				} catch (DiscordException e){
+					LOG.warn("UsernameDialog", e);
+					JOptionPane.showMessageDialog(this, e.getErrorMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			dispose();
 		});
 
