@@ -32,8 +32,6 @@ public class SendImageControl implements ActionListener {
                 try {
                     Message.sendImage(Channel.getChannel(),
                             ImageIO.read(fileChooser.getSelectedFile()), fileChooser.getSelectedFile().getName());
-                    Display.getInstance().getChat().setText(Display.getInstance().getChat().getText() + "\n"
-                    + "TROLOLO : IMG [" + fileChooser.getSelectedFile().getName() + "]");
                 } catch (IOException e1){
                     LOG.error("actionPerformed", e1);
                 }

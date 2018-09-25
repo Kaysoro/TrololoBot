@@ -23,10 +23,7 @@ public class SendTextControl implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (Channel.getChannel() != null && ! text.getText().isEmpty()){
             Message.sendText(Channel.getChannel(), text.getText());
-            Display.getInstance().getChat().setText(Display.getInstance().getChat().getText() + "\n"
-                + "TROLOLO : " + text.getText());
             text.setText("");
-            // TODO beautify this component
         }
     }
 }

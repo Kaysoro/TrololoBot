@@ -30,8 +30,6 @@ public class SendFileControl implements ActionListener {
                 try {
                     Message.sendFile(Channel.getChannel(),
                             new FileInputStream(fileChooser.getSelectedFile()), fileChooser.getSelectedFile().getName());
-                    Display.getInstance().getChat().setText(Display.getInstance().getChat().getText() + "\n"
-                            + "TROLOLO : FILE [" + fileChooser.getSelectedFile().getName() + "]");
                 } catch (IOException e1){
                     LOG.error("actionPerformed", e1);
                 }

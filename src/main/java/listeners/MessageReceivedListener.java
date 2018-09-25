@@ -8,7 +8,7 @@ import view.Display;
 /**
  * Created by kaysoro on 15/09/2018.
  */
-public class MessageListener {
+public class MessageReceivedListener {
 
     @EventSubscriber
     public void onReady(MessageReceivedEvent event) {

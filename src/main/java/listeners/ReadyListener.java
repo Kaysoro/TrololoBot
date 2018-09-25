@@ -27,7 +27,8 @@ public class ReadyListener {
         ClientConfig.DISCORD().getDispatcher().registerListener(new GuildLeaveListener());
 
         LOG.info("Listening messages...");
-        ClientConfig.DISCORD().getDispatcher().registerListener(new MessageListener());
+        ClientConfig.DISCORD().getDispatcher().registerListener(new MessageReceivedListener());
+        ClientConfig.DISCORD().getDispatcher().registerListener(new MessageSendListener());
 
         LOG.info("UP in " + (System.currentTimeMillis() - time) + "ms");
     }
