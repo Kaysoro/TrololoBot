@@ -4,7 +4,6 @@ import data.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Message;
-import view.Display;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +24,7 @@ public class SendFileControl implements ActionListener {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setAcceptAllFileFilterUsed(false);
 
-            if (fileChooser.showOpenDialog(Display.getInstance()) == JFileChooser.APPROVE_OPTION
+            if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
                     && fileChooser.getSelectedFile().exists())
                 try {
                     Message.sendFile(Channel.getChannel(),

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.Image;
 import util.ClientConfig;
-import view.Display;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +25,7 @@ public class AvatarControl implements ActionListener {
         fileChooser.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
         fileChooser.setAcceptAllFileFilterUsed(false);
 
-        if (fileChooser.showOpenDialog(Display.getInstance()) == JFileChooser.APPROVE_OPTION
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
                 && fileChooser.getSelectedFile().exists())
             try {
                 ClientConfig.DISCORD().changeAvatar(Image.forFile(fileChooser.getSelectedFile()));

@@ -4,7 +4,6 @@ import data.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Message;
-import view.Display;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,7 +26,7 @@ public class SendImageControl implements ActionListener {
             fileChooser.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
             fileChooser.setAcceptAllFileFilterUsed(false);
 
-            if (fileChooser.showOpenDialog(Display.getInstance()) == JFileChooser.APPROVE_OPTION
+            if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
                     && fileChooser.getSelectedFile().exists())
                 try {
                     Message.sendImage(Channel.getChannel(),
