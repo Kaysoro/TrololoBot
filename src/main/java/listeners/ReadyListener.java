@@ -14,7 +14,7 @@ import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.obj.ICategory;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import util.ClientConfig;
+import util.DiscordClient;
 
 import java.time.Instant;
 
@@ -63,12 +63,12 @@ public class ReadyListener extends SceneLinkedListener {
 
 
         LOG.info("Adding Discord listeners...");
-        ClientConfig.DISCORD().getDispatcher().registerListener(new GuildCreateListener(getScene()));
-        ClientConfig.DISCORD().getDispatcher().registerListener(new GuildLeaveListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildCreateListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildLeaveListener(getScene()));
 
         LOG.info("Listening Discord messages...");
-        ClientConfig.DISCORD().getDispatcher().registerListener(new MessageReceivedListener(getScene()));
-        ClientConfig.DISCORD().getDispatcher().registerListener(new MessageSendListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageReceivedListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageSendListener(getScene()));
 
         LOG.info("UP in " + (Instant.now().toEpochMilli() - time) + "ms");
     }

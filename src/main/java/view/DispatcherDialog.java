@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
-import util.ClientConfig;
+import util.DiscordClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,7 @@ public class DispatcherDialog extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setTitle("TrololoBot - Dispatcher");
+		setTitle("view.TrololoBot - Dispatcher");
 
 		JComboBox<StatusType> statusTypeJComboBox = new JComboBox<>();
 		statusTypeJComboBox.setPreferredSize(new Dimension(200, 25));
@@ -43,7 +43,7 @@ public class DispatcherDialog extends JDialog {
 		JButton button = new JButton("       OK        ");
 		button.addActionListener(event -> {
 			try {
-			ClientConfig.DISCORD().changePresence((StatusType) statusTypeJComboBox.getSelectedItem(),
+			DiscordClient.DISCORD().changePresence((StatusType) statusTypeJComboBox.getSelectedItem(),
 					(ActivityType) activityTypeJComboBox.getSelectedItem(), text.getText());
 			} catch (DiscordException e){
 				LOG.warn("DispatcherDialog", e);

@@ -21,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Main</mainClass>
+                            <mainClass>view.TrololoBot</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

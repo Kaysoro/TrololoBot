@@ -6,12 +6,12 @@ package data;
 public class Constants {
 
     /**
-     * Application name
+     * view.TrololoBot name
      */
-    public final static String name = "TrololoBot";
+    public final static String name = "view.TrololoBot";
 
     /**
-     * Application version
+     * view.TrololoBot version
      */
     public final static String version = "0.0.1";
 
@@ -23,5 +23,5 @@ public class Constants {
     /**
      * URL for github KaellyBot repository
      */
-    public final static String git = "https://github.com/Kaysoro/TrololoBot";
+    public final static String git = "https://github.com/Kaysoro/view.TrololoBot";
 }

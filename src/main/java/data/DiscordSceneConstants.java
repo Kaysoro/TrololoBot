@@ -6,6 +6,8 @@ import javafx.scene.image.ImageView;
 
 public class DiscordSceneConstants {
 
+    // About
+    public static final Node aboutIcon = new ImageView(new Image(DiscordSceneConstants.class.getResourceAsStream("../images/github.png")));
     // Tree
     public static final Image robotIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/discord.png"));
     public static final Image guildIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/server.png"));

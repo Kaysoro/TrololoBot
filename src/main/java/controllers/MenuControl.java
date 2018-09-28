@@ -1,15 +1,20 @@
 package controllers;
 
+import data.Constants;
+import data.DiscordSceneConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeView;
+import listeners.ReadyListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
-import util.ClientConfig;
+import util.DiscordClient;
+import view.TrololoBot;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,25 +27,41 @@ public class MenuControl implements Initializable {
     private final static Logger LOG = LoggerFactory.getLogger(MenuControl.class);
 
     @FXML
+    private void loginDiscord(){
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Discord login");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Please enter the token:");
+            dialog.showAndWait().ifPresent(token -> {
+                try {
+                    NotificationControl.connecting(TrololoBot.getStage().getScene());
+                    TreeView<String> tree = (TreeView<String>) TrololoBot.getStage().getScene().lookup("#tree");
+                    tree.setRoot(null);
+                    DiscordClient.connectToDiscord(token);
+                    DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(TrololoBot.getStage().getScene()));
+                } catch (DiscordException e){
+                    ExceptionControl.throwException("Discord login - Error", e);
+                    NotificationControl.disconnected(TrololoBot.getStage().getScene());
+                }
+            });
+        });
+    }
+
+    @FXML
     private void changeUsername(){
         Platform.runLater(() -> {
-            TextInputDialog dialog = new TextInputDialog(ClientConfig.DISCORD().getOurUser().getName());
+            TextInputDialog dialog = new TextInputDialog(DiscordClient.DISCORD().getOurUser().getName());
             dialog.setTitle("Change username");
             dialog.setHeaderText("Take care about the rate limit : username cannot be changed very often.");
             dialog.setContentText("Please enter the new username:");
             dialog.showAndWait().ifPresent(name -> {
-                if (!ClientConfig.DISCORD().getOurUser().getName().equals(name))
+                if (!DiscordClient.DISCORD().getOurUser().getName().equals(name))
                     RequestBuffer.request(() -> {
                         try {
-                            ClientConfig.DISCORD().changeUsername(name);
+                            DiscordClient.DISCORD().changeUsername(name);
                         } catch (DiscordException e){
-                            Platform.runLater(() -> {
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Change username - Error");
-                                alert.setHeaderText("Error found : please read the reason below");
-                                alert.setContentText(e.getMessage());
-                                alert.showAndWait();
-                            });
+                            ExceptionControl.throwException("Change username - Error", e);
                         }
                     });
                 });
@@ -64,14 +85,21 @@ public class MenuControl implements Initializable {
 
     @FXML
     private void about(){
-        LOG.info("about");
-        // TODO
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("About");
+            alert.setHeaderText(null);
+            alert.setGraphic(DiscordSceneConstants.aboutIcon);
+            alert.setContentText(Constants.name + " - version " + Constants.version + "\n"
+            + "A Github hosted project by KΔYϟ0R0\n" + Constants.git);
+            alert.showAndWait();
+        });
     }
 
     @FXML
     private void quit(){
         Platform.exit();
-        ClientConfig.DISCORD().logout();
+        DiscordClient.DISCORD().logout();
     }
 
     @Override

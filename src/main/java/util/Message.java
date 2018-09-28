@@ -20,7 +20,7 @@ public class Message {
     public static void sendText(IChannel channel, String content){
         RequestBuffer.request(() -> {
             try {
-                new MessageBuilder(ClientConfig.DISCORD())
+                new MessageBuilder(DiscordClient.DISCORD())
                         .withChannel(channel)
                         .withContent(content)
                         .build();
@@ -44,7 +44,7 @@ public class Message {
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 ImageIO.write(image, "png", os);
                 InputStream is = new ByteArrayInputStream(os.toByteArray());
-                new MessageBuilder(ClientConfig.DISCORD())
+                new MessageBuilder(DiscordClient.DISCORD())
                         .withChannel(channel)
                         .withFile(is, imageName)
                         .build();
@@ -65,7 +65,7 @@ public class Message {
     public static void sendFile(IChannel channel, InputStream file, String fileName) {
         RequestBuffer.request(() -> {
             try {
-                new MessageBuilder(ClientConfig.DISCORD())
+                new MessageBuilder(DiscordClient.DISCORD())
                         .withChannel(channel)
                         .withFile(file, fileName)
                         .build();
@@ -86,7 +86,7 @@ public class Message {
     public static void sendEmbed(IChannel channel, EmbedObject content){
         RequestBuffer.request(() -> {
             try {
-                new MessageBuilder(ClientConfig.DISCORD())
+                new MessageBuilder(DiscordClient.DISCORD())
                         .withChannel(channel)
                         .withEmbed(content)
                         .build();
