@@ -20,7 +20,7 @@
       <items>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minViewportWidth="200.0" minWidth="200.0" prefViewportWidth="200.0" prefWidth="200.0">
                <content>
-                  <TreeView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TreeView fx:id="tree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </content>
             </ScrollPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -39,7 +39,7 @@
     </SplitPane>
       <HBox id="HBox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="588.0" spacing="5.0">
          <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Disconnected" HBox.hgrow="ALWAYS">
+            <Label fx:id="status" maxHeight="1.7976931348623157E308" maxWidth="-1.0" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="11.0" fx:id="x31" />
                </font>
@@ -48,7 +48,7 @@
                </textFill>
             </Label>
             <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-            <Label font="$x31" maxWidth="-1.0" text="Right status" textFill="$x41" HBox.hgrow="NEVER" />
+            <Label font="$x31" maxWidth="-1.0" fx:id="stats" textFill="$x41" HBox.hgrow="NEVER" />
          </children>
          <padding>
             <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

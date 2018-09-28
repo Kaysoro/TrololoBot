@@ -1,11 +1,16 @@
+import controllers.NotificationControl;
 import data.Constants;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import listeners.ReadyListener;
 import org.slf4j.LoggerFactory;
+import sx.blah.discord.api.IDiscordClient;
+import util.ClientConfig;
 
 /**
  * Created by kaysoro on 15/09/2018.
@@ -18,8 +23,6 @@ public class Main extends Application {
                 "                                 |  |__) /  \\ |    /  \\ |    /  \\ |__) /  \\  |\n" +
                 "                                 |  |  \\ \\__/ |___ \\__/ |___ \\__/ |__) \\__/  |     Version " + Constants.version + "\n" +
                 "                                ================================================");
-      //IDiscordClient client = ClientConfig.DISCORD();
-      //client.getDispatcher().registerListener(new ReadyListener(this));
         launch(args);
     }
 
@@ -29,6 +32,19 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle(Constants.name + " " + Constants.version);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("images/trolol.png")));
+        NotificationControl.disconnected(primaryStage.getScene());
+        NotificationControl.updateGuildsNumber(primaryStage.getScene());
+
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            ClientConfig.DISCORD().logout();
+        });
         primaryStage.show();
+
+        Platform.runLater(() -> {
+            NotificationControl.connecting(primaryStage.getScene());
+            IDiscordClient client = ClientConfig.DISCORD();
+            client.getDispatcher().registerListener(new ReadyListener(primaryStage.getScene()));
+        });
     }
 }
