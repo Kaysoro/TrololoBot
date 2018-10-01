@@ -3,7 +3,7 @@ package listeners;
 import controllers.NotificationControl;
 import data.DiscordSceneConstants;
 import javafx.application.Platform;
-import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
@@ -21,11 +21,22 @@ import java.time.Instant;
 /**
  * Created by kaysoro on 15/09/2018.
  */
-public class ReadyListener extends SceneLinkedListener {
+public class ReadyListener {
     private final static Logger LOG = LoggerFactory.getLogger(ReadyListener.class);
 
-    public ReadyListener(Scene scene){
-        super(scene);
+    private TreeView<String> tree;
+
+    private MenuItem usernameMenuItem;
+
+    private MenuItem avatarMenuItem;
+
+    private MenuItem dispatcherMenuItem;
+
+    public ReadyListener(TreeView<String> tree, MenuItem username, MenuItem avatar, MenuItem dispatcher){
+        this.tree = tree;
+        this.usernameMenuItem = username;
+        this.avatarMenuItem = avatar;
+        this.dispatcherMenuItem = dispatcher;
     }
 
     @EventSubscriber
@@ -37,7 +48,6 @@ public class ReadyListener extends SceneLinkedListener {
         Platform.runLater(() -> {
             TreeItem<String> rootNode = new TreeItem<>(event.getClient().getApplicationName(), new ImageView(DiscordSceneConstants.robotIcon));
             rootNode.setExpanded(true);
-            TreeView<String> tree = ((TreeView<String>) getScene().lookup("#tree"));
 
             for(IGuild guild : event.getClient().getGuilds()){
                 TreeItem<String> guildItem = new TreeItem<>(guild.getName(), new ImageView(DiscordSceneConstants.guildIcon));
@@ -57,18 +67,22 @@ public class ReadyListener extends SceneLinkedListener {
                 rootNode.getChildren().add(guildItem);
             }
             tree.setRoot(rootNode);
-            NotificationControl.updateGuildsNumber(getScene());
-            NotificationControl.connected(getScene());
+            NotificationControl.updateGuildsNumber();
+            NotificationControl.connected();
+
+            usernameMenuItem.setDisable(false);
+            avatarMenuItem.setDisable(false);
+            dispatcherMenuItem.setDisable(false);
         });
 
 
         LOG.info("Adding Discord listeners...");
-        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildCreateListener(getScene()));
-        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildLeaveListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildCreateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new GuildLeaveListener());
 
         LOG.info("Listening Discord messages...");
-        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageReceivedListener(getScene()));
-        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageSendListener(getScene()));
+        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageReceivedListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new MessageSendListener());
 
         LOG.info("UP in " + (Instant.now().toEpochMilli() - time) + "ms");
     }

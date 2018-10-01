@@ -1,7 +1,6 @@
 package listeners;
 
 import data.DiscordSceneConstants;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
@@ -14,13 +13,9 @@ import sx.blah.discord.handle.obj.IChannel;
 /**
  * Created by kaysoro on 15/09/2018.
  */
-public class GuildCreateListener extends SceneLinkedListener {
+public class GuildCreateListener {
 
     private final static Logger LOG = LoggerFactory.getLogger(GuildCreateListener.class);
-
-    public GuildCreateListener(Scene scene){
-        super(scene);
-    }
 
     @EventSubscriber
     public void onReady(GuildCreateEvent event) {

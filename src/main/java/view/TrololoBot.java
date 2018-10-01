@@ -28,12 +28,13 @@ public class TrololoBot extends javafx.application.Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle(Constants.name + " " + Constants.version);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));
-        NotificationControl.disconnected(primaryStage.getScene());
-        NotificationControl.updateGuildsNumber(primaryStage.getScene());
+        NotificationControl.disconnected();
+        NotificationControl.updateGuildsNumber();
 
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
-            DiscordClient.DISCORD().logout();
+            if (DiscordClient.DISCORD() != null && DiscordClient.DISCORD().isLoggedIn())
+                DiscordClient.DISCORD().logout();
         });
         primaryStage.show();
     }

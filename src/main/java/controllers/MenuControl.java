@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import listeners.ReadyListener;
@@ -27,6 +28,15 @@ public class MenuControl implements Initializable {
     private final static Logger LOG = LoggerFactory.getLogger(MenuControl.class);
 
     @FXML
+    private MenuItem usernameMenuItem;
+
+    @FXML
+    private MenuItem avatarMenuItem;
+
+    @FXML
+    private MenuItem dispatcherMenuItem;
+
+    @FXML
     private void loginDiscord(){
         Platform.runLater(() -> {
             TextInputDialog dialog = new TextInputDialog();
@@ -35,14 +45,18 @@ public class MenuControl implements Initializable {
             dialog.setContentText("Please enter the token:");
             dialog.showAndWait().ifPresent(token -> {
                 try {
-                    NotificationControl.connecting(TrololoBot.getStage().getScene());
+                    usernameMenuItem.setDisable(true);
+                    avatarMenuItem.setDisable(true);
+                    dispatcherMenuItem.setDisable(true);
+                    NotificationControl.connecting();
                     TreeView<String> tree = (TreeView<String>) TrololoBot.getStage().getScene().lookup("#tree");
                     tree.setRoot(null);
                     DiscordClient.connectToDiscord(token);
-                    DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(TrololoBot.getStage().getScene()));
+                    DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(
+                            tree, usernameMenuItem, avatarMenuItem, dispatcherMenuItem));
                 } catch (DiscordException e){
                     ExceptionControl.throwException("Discord login - Error", e);
-                    NotificationControl.disconnected(TrololoBot.getStage().getScene());
+                    NotificationControl.disconnected();
                 }
             });
         });

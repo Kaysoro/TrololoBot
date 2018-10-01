@@ -16,17 +16,17 @@
                         <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                     </accelerator>
                 </MenuItem>
-                <MenuItem mnemonicParsing="false" text="Username" onAction="#changeUsername">
+                <MenuItem mnemonicParsing="false" fx:id="usernameMenuItem" text="Username" onAction="#changeUsername" disable="true">
                     <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                     </accelerator>
                 </MenuItem>
-                <MenuItem mnemonicParsing="false" text="Avatar" onAction="#changeAvatar">
+                <MenuItem mnemonicParsing="false" fx:id="avatarMenuItem" text="Avatar" onAction="#changeAvatar" disable="true">
                     <accelerator>
                         <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                     </accelerator>
                 </MenuItem>
-                <MenuItem mnemonicParsing="false" text="Dispatcher" onAction="#changeDispatcher">
+                <MenuItem mnemonicParsing="false" fx:id="dispatcherMenuItem" text="Dispatcher" onAction="#changeDispatcher" disable="true">
                     <accelerator>
                         <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                     </accelerator>

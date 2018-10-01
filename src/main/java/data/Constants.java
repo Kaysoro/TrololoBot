@@ -8,12 +8,12 @@ public class Constants {
     /**
      * view.TrololoBot name
      */
-    public final static String name = "view.TrololoBot";
+    public final static String name = "TrololoBot";
 
     /**
      * view.TrololoBot version
      */
-    public final static String version = "0.0.1";
+    public final static String version = "0.0.2";
 
     /**
      * Author id
