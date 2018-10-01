@@ -7,8 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import util.Message;
 import view.TrololoBot;
 
@@ -24,36 +22,39 @@ import java.util.ResourceBundle;
  */
 public class SendControl  implements Initializable {
 
-    private final static Logger LOG = LoggerFactory.getLogger(SendControl.class);
-
     @FXML
     private TextArea myTextArea;
 
     @FXML
     private void sendText()
     {
-        if (Channel.getChannel() != null && ! myTextArea.getText().isEmpty()){
+        if (! myTextArea.getText().trim().isEmpty()){
             Message.sendText(Channel.getChannel(), myTextArea.getText());
             myTextArea.setText("");
         }
+        else if (myTextArea.getText().matches("\\s+"))
+            myTextArea.setText(myTextArea.getText().trim());
     }
 
     @FXML
     private void shortcutSendText(KeyEvent event)
     {
-        if (Channel.getChannel() != null && ! myTextArea.getText().isEmpty() && event.getCode() == KeyCode.ENTER){
+        if (! myTextArea.getText().trim().isEmpty() && event.getCode() == KeyCode.ENTER && ! event.isShiftDown()){
             Message.sendText(Channel.getChannel(), myTextArea.getText());
             myTextArea.setText("");
+        }
+        else if (myTextArea.getText().matches("\\s+") && ! event.isShiftDown())
+            myTextArea.setText(myTextArea.getText().trim());
+        else if (event.getCode() == KeyCode.ENTER && event.isShiftDown()) {
+            myTextArea.setText(myTextArea.getText() + "\n");
+            myTextArea.positionCaret(myTextArea.getText().length());
         }
     }
 
     @FXML
     private void sendEmbed()
     {
-        if (Channel.getChannel() != null){
-            LOG.info("send embed action");
-            // TODO
-        }
+        // TODO
     }
 
     @FXML

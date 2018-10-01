@@ -1,7 +1,6 @@
 package listeners;
 
 import controllers.NotificationControl;
-import data.Channel;
 import data.DiscordSceneConstants;
 import javafx.application.Platform;
 import javafx.scene.control.MenuItem;
@@ -74,7 +73,6 @@ public class ReadyListener {
             usernameMenuItem.setDisable(false);
             avatarMenuItem.setDisable(false);
             dispatcherMenuItem.setDisable(false);
-            Channel.setChannel(DiscordClient.DISCORD().getChannelByID(299173200615702529l));
         });
 
 
