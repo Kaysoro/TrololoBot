@@ -23,8 +23,10 @@ public class TrololoBot extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("frame.fxml"));
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("frame.fxml"));
+        Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle(Constants.name + " " + Constants.version);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));

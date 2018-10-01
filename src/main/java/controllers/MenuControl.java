@@ -9,14 +9,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
+import javafx.stage.FileChooser;
 import listeners.ReadyListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.Image;
+import sx.blah.discord.util.RateLimitException;
 import sx.blah.discord.util.RequestBuffer;
 import util.DiscordClient;
 import view.TrololoBot;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,8 +26,6 @@ import java.util.ResourceBundle;
  * Created by kaysoro on 27/09/2018.
  */
 public class MenuControl implements Initializable {
-
-    private final static Logger LOG = LoggerFactory.getLogger(MenuControl.class);
 
     @FXML
     private MenuItem usernameMenuItem;
@@ -74,6 +74,9 @@ public class MenuControl implements Initializable {
                     RequestBuffer.request(() -> {
                         try {
                             DiscordClient.DISCORD().changeUsername(name);
+                        } catch (RateLimitException e){
+                            ExceptionControl.throwException("Change username - Error", e);
+                            throw e;
                         } catch (DiscordException e){
                             ExceptionControl.throwException("Change username - Error", e);
                         }
@@ -83,17 +86,34 @@ public class MenuControl implements Initializable {
     }
 
     @FXML
-    private void changeAvatar()
-    {
-        LOG.info("change avatar");
-        // TODO
-
+    private void changeAvatar() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Image File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+        File file = fileChooser.showOpenDialog(TrololoBot.getStage());
+        if (file != null && file.exists()) {
+            RequestBuffer.request(() -> {
+                try {
+                    DiscordClient.DISCORD().changeAvatar(Image.forFile(file));
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Change Avatar");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Avatar change succeeded. It will take some time to see the effects.");
+                        alert.showAndWait();
+                    });
+                } catch (RateLimitException e) {
+                    ExceptionControl.throwException("Change avatar - Error", e);
+                    throw e;
+                } catch (DiscordException e) {
+                    ExceptionControl.throwException("Change avatar - Error", e);
+                }
+            });
+        }
     }
 
     @FXML
-    private void changeDispatcher()
-    {
-        LOG.info("change dispatcher");
+    private void changeDispatcher() {
         // TODO
     }
 
@@ -113,7 +133,8 @@ public class MenuControl implements Initializable {
     @FXML
     private void quit(){
         Platform.exit();
-        DiscordClient.DISCORD().logout();
+        if (DiscordClient.DISCORD() != null && DiscordClient.DISCORD().isLoggedIn())
+            DiscordClient.DISCORD().logout();
     }
 
     @Override

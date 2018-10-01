@@ -1,6 +1,6 @@
 package util;
 
-import data.Constants;
+import controllers.ExceptionControl;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
@@ -27,14 +27,9 @@ public class Message {
             } catch(RateLimitException e){
                 LoggerFactory.getLogger(Message.class).warn(e.getMessage(),e );
                 throw e;
-            } catch (DiscordException e){
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
-            } catch(MissingPermissionsException e){
-                LoggerFactory.getLogger(Message.class).warn(Constants.name + " has not enough permission to do this request.");
-            } catch(Exception e){
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(),e );
+            } catch (Exception e) {
+                ExceptionControl.throwException("Send text - Error", e);
             }
-            return null;
         });
     }
 
@@ -49,16 +44,10 @@ public class Message {
                         .withFile(is, imageName)
                         .build();
             } catch (RateLimitException e) {
-                LoggerFactory.getLogger(Message.class).warn(e.getMessage(), e);
                 throw e;
-            } catch (DiscordException e) {
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
-            } catch (MissingPermissionsException e) {
-                LoggerFactory.getLogger(Message.class).warn(Constants.name + " has not enough permission to do this request.");
             } catch (Exception e) {
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
+                ExceptionControl.throwException("Send image - Error", e);
             }
-            return null;
         });
     }
 
@@ -72,14 +61,9 @@ public class Message {
             } catch (RateLimitException e) {
                 LoggerFactory.getLogger(Message.class).warn(e.getMessage(), e);
                 throw e;
-            } catch (DiscordException e) {
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
-            } catch (MissingPermissionsException e) {
-                LoggerFactory.getLogger(Message.class).warn(Constants.name + " has not enough permission to do this request.");
             } catch (Exception e) {
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
+                ExceptionControl.throwException("Send file - Error", e);
             }
-            return null;
         });
     }
 
@@ -93,14 +77,9 @@ public class Message {
             } catch(RateLimitException e){
                 LoggerFactory.getLogger(Message.class).warn(e.getMessage(), e);
                 throw e;
-            } catch (DiscordException e){
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
-            } catch(MissingPermissionsException e){
-                LoggerFactory.getLogger(Message.class).warn(Constants.name + " has not enough permission to do this request.");
-            } catch(Exception e){
-                LoggerFactory.getLogger(Message.class).error(e.getMessage(), e);
+            } catch (Exception e) {
+                ExceptionControl.throwException("Send embed - Error", e);
             }
-            return null;
         });
     }
 }
