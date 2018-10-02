@@ -2,7 +2,6 @@ package controllers;
 
 import data.DiscordSceneConstants;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import util.DiscordClient;
 import view.TrololoBot;
 
@@ -29,14 +28,11 @@ public class NotificationControl {
         status.setGraphic(DiscordSceneConstants.disconnectedIcon);
     }
 
-    public static void updateGuildsNumber(){
+    public static void updateGuildsNumber(int guildsNumber, int vulnerableGuilds){
         Label stats = ((Label) TrololoBot.getStage().getScene().lookup("#stats"));
-        if (DiscordClient.DISCORD() != null && DiscordClient.DISCORD().isLoggedIn() && DiscordClient.DISCORD().isReady()) {
-            stats.setText("Number of Guild(s): " + DiscordClient.DISCORD().getGuilds().size());
-            stats.setGraphic(new ImageView(DiscordSceneConstants.guildIcon));
-        }
-        else {
+        if (DiscordClient.DISCORD() != null && DiscordClient.DISCORD().isLoggedIn() && DiscordClient.DISCORD().isReady())
+            stats.setText(guildsNumber + " guild(s) with " + vulnerableGuilds + " vulnerable");
+        else
             stats.setText("No further information");
-        }
     }
 }

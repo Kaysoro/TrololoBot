@@ -2,6 +2,7 @@ package listeners;
 
 import controllers.NotificationControl;
 import data.DiscordSceneConstants;
+import data.DiscordSecurityUtils;
 import javafx.application.Platform;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -48,12 +49,12 @@ public class ReadyListener {
         Platform.runLater(() -> {
             TreeItem<String> rootNode = new TreeItem<>(event.getClient().getApplicationName(), new ImageView(DiscordSceneConstants.robotIcon));
             rootNode.setExpanded(true);
+            int vulnerableGuilds = 0;
 
             for(IGuild guild : event.getClient().getGuilds()){
-                TreeItem<String> guildItem = new TreeItem<>(guild.getName(), new ImageView(DiscordSceneConstants.guildIcon));
+                TreeItem<String> guildItem = new TreeItem<>(guild.getName(), getImageFor(guild));
                 for(ICategory category : guild.getCategories()) {
                     TreeItem<String> categoryItem = new TreeItem<>(category.getName(), new ImageView(DiscordSceneConstants.categoryIcon));
-
                     for(IChannel channel : category.getChannels()) {
                         TreeItem<String> chanItem = new TreeItem<>(channel.getName(), new ImageView(DiscordSceneConstants.channelIcon));
 
@@ -67,7 +68,7 @@ public class ReadyListener {
                 rootNode.getChildren().add(guildItem);
             }
             tree.setRoot(rootNode);
-            NotificationControl.updateGuildsNumber();
+            NotificationControl.updateGuildsNumber(event.getClient().getGuilds().size(), vulnerableGuilds);
             NotificationControl.connected();
 
             usernameMenuItem.setDisable(false);
@@ -85,5 +86,11 @@ public class ReadyListener {
         DiscordClient.DISCORD().getDispatcher().registerListener(new MessageSendListener());
 
         LOG.info("UP in " + (Instant.now().toEpochMilli() - time) + "ms");
+    }
+
+    private ImageView getImageFor(IGuild guild){
+        if (DiscordSecurityUtils.isSecured(guild))
+            return new ImageView(DiscordSceneConstants.guildsIcon);
+        return new ImageView(DiscordSceneConstants.guildnsIcon);
     }
 }

@@ -44,20 +44,21 @@ public class MenuControl implements Initializable {
             dialog.setHeaderText(null);
             dialog.setContentText("Please enter the token:");
             dialog.showAndWait().ifPresent(token -> {
-                try {
-                    usernameMenuItem.setDisable(true);
-                    avatarMenuItem.setDisable(true);
-                    dispatcherMenuItem.setDisable(true);
-                    NotificationControl.connecting();
-                    TreeView<String> tree = (TreeView<String>) TrololoBot.getStage().getScene().lookup("#tree");
-                    tree.setRoot(null);
-                    DiscordClient.connectToDiscord(token);
-                    DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(
-                            tree, usernameMenuItem, avatarMenuItem, dispatcherMenuItem));
-                } catch (DiscordException e){
-                    ExceptionControl.throwException("Discord login - Error", e);
-                    NotificationControl.disconnected();
-                }
+                if (! token.isEmpty())
+                    try {
+                        usernameMenuItem.setDisable(true);
+                        avatarMenuItem.setDisable(true);
+                        dispatcherMenuItem.setDisable(true);
+                        NotificationControl.connecting();
+                        TreeView<String> tree = (TreeView<String>) TrololoBot.getStage().getScene().lookup("#tree");
+                        tree.setRoot(null);
+                        DiscordClient.connectToDiscord(token);
+                        DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(
+                                tree, usernameMenuItem, avatarMenuItem, dispatcherMenuItem));
+                    } catch (DiscordException e){
+                        ExceptionControl.throwException("Discord login - Error", e);
+                        NotificationControl.disconnected();
+                    }
             });
         });
     }
@@ -70,7 +71,7 @@ public class MenuControl implements Initializable {
             dialog.setHeaderText("Take care about the rate limit : username cannot be changed very often.");
             dialog.setContentText("Please enter the new username:");
             dialog.showAndWait().ifPresent(name -> {
-                if (!DiscordClient.DISCORD().getOurUser().getName().equals(name))
+                if (!DiscordClient.DISCORD().getOurUser().getName().equals(name) && ! name.isEmpty())
                     RequestBuffer.request(() -> {
                         try {
                             DiscordClient.DISCORD().changeUsername(name);

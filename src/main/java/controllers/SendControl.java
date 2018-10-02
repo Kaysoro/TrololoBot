@@ -26,8 +26,7 @@ public class SendControl  implements Initializable {
     private TextArea myTextArea;
 
     @FXML
-    private void sendText()
-    {
+    private void sendText() {
         if (! myTextArea.getText().trim().isEmpty()){
             Message.sendText(Channel.getChannel(), myTextArea.getText());
             myTextArea.setText("");
@@ -37,8 +36,7 @@ public class SendControl  implements Initializable {
     }
 
     @FXML
-    private void shortcutSendText(KeyEvent event)
-    {
+    private void shortcutSendText(KeyEvent event) {
         if (! myTextArea.getText().trim().isEmpty() && event.getCode() == KeyCode.ENTER && ! event.isShiftDown()){
             Message.sendText(Channel.getChannel(), myTextArea.getText());
             myTextArea.setText("");
@@ -52,8 +50,7 @@ public class SendControl  implements Initializable {
     }
 
     @FXML
-    private void sendEmbed()
-    {
+    private void sendEmbed() {
         // TODO
     }
 
