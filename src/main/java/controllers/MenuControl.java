@@ -17,6 +17,7 @@ import sx.blah.discord.util.RateLimitException;
 import sx.blah.discord.util.RequestBuffer;
 import util.DiscordClient;
 import view.TrololoBot;
+import view.tree.DiscordItem;
 
 import java.io.File;
 import java.net.URL;
@@ -50,7 +51,7 @@ public class MenuControl implements Initializable {
                         avatarMenuItem.setDisable(true);
                         dispatcherMenuItem.setDisable(true);
                         NotificationControl.connecting();
-                        TreeView<String> tree = (TreeView<String>) TrololoBot.getStage().getScene().lookup("#tree");
+                        TreeView<DiscordItem> tree = (TreeView<DiscordItem>) TrololoBot.getStage().getScene().lookup("#tree");
                         tree.setRoot(null);
                         DiscordClient.connectToDiscord(token);
                         DiscordClient.DISCORD().getDispatcher().registerListener(new ReadyListener(
@@ -75,6 +76,13 @@ public class MenuControl implements Initializable {
                     RequestBuffer.request(() -> {
                         try {
                             DiscordClient.DISCORD().changeUsername(name);
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Change username");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Username change succeeded. It will take some time to see the effects.");
+                                alert.showAndWait();
+                            });
                         } catch (RateLimitException e){
                             ExceptionControl.throwException("Change username - Error", e);
                             throw e;

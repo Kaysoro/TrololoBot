@@ -15,7 +15,9 @@ import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.obj.ICategory;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IVoiceChannel;
 import util.DiscordClient;
+import view.tree.*;
 
 import java.time.Instant;
 
@@ -25,7 +27,7 @@ import java.time.Instant;
 public class ReadyListener {
     private final static Logger LOG = LoggerFactory.getLogger(ReadyListener.class);
 
-    private TreeView<String> tree;
+    private TreeView<DiscordItem> tree;
 
     private MenuItem usernameMenuItem;
 
@@ -33,7 +35,7 @@ public class ReadyListener {
 
     private MenuItem dispatcherMenuItem;
 
-    public ReadyListener(TreeView<String> tree, MenuItem username, MenuItem avatar, MenuItem dispatcher){
+    public ReadyListener(TreeView<DiscordItem> tree, MenuItem username, MenuItem avatar, MenuItem dispatcher){
         this.tree = tree;
         this.usernameMenuItem = username;
         this.avatarMenuItem = avatar;
@@ -47,21 +49,21 @@ public class ReadyListener {
         LOG.info("Displaying Discord listeners...");
 
         Platform.runLater(() -> {
-            TreeItem<String> rootNode = new TreeItem<>(event.getClient().getApplicationName(), new ImageView(DiscordSceneConstants.robotIcon));
+            TreeItem<DiscordItem> rootNode = new TreeItem<>(BotItem.of(event.getClient()), new ImageView(DiscordSceneConstants.robotIcon));
             rootNode.setExpanded(true);
             int vulnerableGuilds = 0;
 
             for(IGuild guild : event.getClient().getGuilds()){
-                TreeItem<String> guildItem = new TreeItem<>(guild.getName(), getImageFor(guild));
+                TreeItem<DiscordItem> guildItem = new TreeItem<>(GuildItem.of(guild), getImageFor(guild));
                 for(ICategory category : guild.getCategories()) {
-                    TreeItem<String> categoryItem = new TreeItem<>(category.getName(), new ImageView(DiscordSceneConstants.categoryIcon));
+                    TreeItem<DiscordItem> categoryItem = new TreeItem<>(CategoryItem.of(category), new ImageView(DiscordSceneConstants.categoryIcon));
                     for(IChannel channel : category.getChannels()) {
-                        TreeItem<String> chanItem = new TreeItem<>(channel.getName(), new ImageView(DiscordSceneConstants.channelIcon));
+                        TreeItem<DiscordItem> chanItem = new TreeItem<>(ChannelItem.of(channel), new ImageView(DiscordSceneConstants.channelIcon));
 
                         categoryItem.getChildren().add(chanItem);
                     }
-                    for(IChannel channel : category.getVoiceChannels())
-                        categoryItem.getChildren().add(new TreeItem<>(channel.getName(), new ImageView(DiscordSceneConstants.voiceIcon)));
+                    for(IVoiceChannel channel : category.getVoiceChannels())
+                        categoryItem.getChildren().add(new TreeItem<>(VoiceItem.of(channel), new ImageView(DiscordSceneConstants.voiceIcon)));
 
                     guildItem.getChildren().add(categoryItem);
                 }
