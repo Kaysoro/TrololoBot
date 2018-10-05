@@ -1,6 +1,7 @@
 package view.tree;
 
-import javafx.scene.control.MenuItem;
+import data.DiscordSceneConstants;
+import javafx.scene.image.ImageView;
 import sx.blah.discord.handle.obj.IVoiceChannel;
 
 public class VoiceItem extends AbstractItem {
@@ -10,6 +11,7 @@ public class VoiceItem extends AbstractItem {
     private VoiceItem(IVoiceChannel channel){
         super();
         this.channel = channel;
+        node = new ImageView(DiscordSceneConstants.voiceIcon);
     }
 
     public static DiscordItem of(IVoiceChannel channel){
@@ -19,10 +21,5 @@ public class VoiceItem extends AbstractItem {
     @Override
     public String getName() {
         return channel.getName();
-    }
-
-    @Override
-    public MenuItem getMenusContext() {
-        return null;
     }
 }

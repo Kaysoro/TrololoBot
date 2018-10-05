@@ -12,5 +12,9 @@ public class Channel {
 
     public static void setChannel(IChannel channel) {
         Channel.channel = channel;
+
+        if (channel != null){
+            // TODO
+        }
     }
 }

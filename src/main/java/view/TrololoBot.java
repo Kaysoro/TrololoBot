@@ -6,9 +6,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import util.DiscordClient;
+import view.tree.DiscordItem;
 
 /**
  * Created by kaysoro on 15/09/2018.
@@ -39,9 +42,27 @@ public class TrololoBot extends javafx.application.Application {
                 DiscordClient.DISCORD().logout();
         });
         primaryStage.show();
+        ((TreeView<DiscordItem>) primaryStage.getScene().lookup("#tree")).setCellFactory(cellFactory -> new TreeCellImpl());
     }
 
     public static Stage getStage(){
         return stage;
+    }
+
+    private final class TreeCellImpl extends TreeCell<DiscordItem> {
+        @Override
+        public void updateItem(DiscordItem item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item != null) {
+                setText(item.getName());
+                setGraphic(item.getNode());
+                setContextMenu(item.getMenu());
+            }
+            else {
+                setText(null);
+                setGraphic(null);
+                setContextMenu(null);
+            }
+        }
     }
 }

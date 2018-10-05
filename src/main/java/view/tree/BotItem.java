@@ -1,6 +1,8 @@
 package view.tree;
 
-import javafx.scene.control.MenuItem;
+import data.DiscordSceneConstants;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.image.ImageView;
 import sx.blah.discord.api.IDiscordClient;
 
 public class BotItem extends AbstractItem {
@@ -10,6 +12,7 @@ public class BotItem extends AbstractItem {
     private BotItem(IDiscordClient client){
         super();
         this.client = client;
+        node = new ImageView(DiscordSceneConstants.robotIcon);
     }
 
     public static DiscordItem of(IDiscordClient client){
@@ -22,7 +25,7 @@ public class BotItem extends AbstractItem {
     }
 
     @Override
-    public MenuItem getMenusContext() {
+    public ContextMenu getMenu() {
         return null;
     }
 }

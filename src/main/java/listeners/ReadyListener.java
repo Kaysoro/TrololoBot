@@ -1,13 +1,10 @@
 package listeners;
 
 import controllers.NotificationControl;
-import data.DiscordSceneConstants;
-import data.DiscordSecurityUtils;
 import javafx.application.Platform;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -49,21 +46,20 @@ public class ReadyListener {
         LOG.info("Displaying Discord listeners...");
 
         Platform.runLater(() -> {
-            TreeItem<DiscordItem> rootNode = new TreeItem<>(BotItem.of(event.getClient()), new ImageView(DiscordSceneConstants.robotIcon));
+            TreeItem<DiscordItem> rootNode = new TreeItem<>(BotItem.of(event.getClient()));
             rootNode.setExpanded(true);
             int vulnerableGuilds = 0;
 
             for(IGuild guild : event.getClient().getGuilds()){
-                TreeItem<DiscordItem> guildItem = new TreeItem<>(GuildItem.of(guild), getImageFor(guild));
+                TreeItem<DiscordItem> guildItem = new TreeItem<>(GuildItem.of(guild));
                 for(ICategory category : guild.getCategories()) {
-                    TreeItem<DiscordItem> categoryItem = new TreeItem<>(CategoryItem.of(category), new ImageView(DiscordSceneConstants.categoryIcon));
+                    TreeItem<DiscordItem> categoryItem = new TreeItem<>(CategoryItem.of(category));
                     for(IChannel channel : category.getChannels()) {
-                        TreeItem<DiscordItem> chanItem = new TreeItem<>(ChannelItem.of(channel), new ImageView(DiscordSceneConstants.channelIcon));
-
+                        TreeItem<DiscordItem> chanItem = new TreeItem<>(ChannelItem.of(channel));
                         categoryItem.getChildren().add(chanItem);
                     }
                     for(IVoiceChannel channel : category.getVoiceChannels())
-                        categoryItem.getChildren().add(new TreeItem<>(VoiceItem.of(channel), new ImageView(DiscordSceneConstants.voiceIcon)));
+                        categoryItem.getChildren().add(new TreeItem<>(VoiceItem.of(channel)));
 
                     guildItem.getChildren().add(categoryItem);
                 }
@@ -88,11 +84,5 @@ public class ReadyListener {
         DiscordClient.DISCORD().getDispatcher().registerListener(new MessageSendListener());
 
         LOG.info("UP in " + (Instant.now().toEpochMilli() - time) + "ms");
-    }
-
-    private ImageView getImageFor(IGuild guild){
-        if (DiscordSecurityUtils.isSecured(guild))
-            return new ImageView(DiscordSceneConstants.guildsIcon);
-        return new ImageView(DiscordSceneConstants.guildnsIcon);
     }
 }

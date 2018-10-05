@@ -1,6 +1,7 @@
 package view.tree;
 
-import javafx.scene.control.MenuItem;
+import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 
 public interface DiscordItem {
 
@@ -13,5 +14,11 @@ public interface DiscordItem {
      *
      * @return Menu dedicated to the cell
      */
-    MenuItem getMenusContext();
+    ContextMenu getMenu();
+
+    /**
+     *
+     * @return Icon for treeItem
+     */
+    Node getNode();
 }
