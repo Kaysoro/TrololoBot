@@ -5,6 +5,7 @@ import data.DiscordRegistry;
 import javafx.application.Platform;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.ChannelCategoryUpdateEvent;
+import sx.blah.discord.handle.obj.ICategory;
 import sx.blah.discord.handle.obj.IChannel;
 
 /**
@@ -14,6 +15,7 @@ public class ChannelCategoryUpdateListener {
 
     @EventSubscriber
     public void onReady(ChannelCategoryUpdateEvent event) {
+        DiscordRegistry.get(ICategory.class, event.getNewCategory().getLongID()).checkIntegrity();
         DiscordRegistry.get(IChannel.class, event.getNewChannel().getLongID()).checkIntegrity();
         Platform.runLater(() -> NotificationControl.updateEvent("Channel Category updated: "
                 + event.getGuild().getName() + " > " + event.getNewChannel().getName()));
