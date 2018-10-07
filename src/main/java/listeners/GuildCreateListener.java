@@ -1,7 +1,7 @@
 package listeners;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import controllers.NotificationControl;
+import javafx.application.Platform;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 
@@ -10,11 +10,9 @@ import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
  */
 public class GuildCreateListener {
 
-    private final static Logger LOG = LoggerFactory.getLogger(GuildCreateListener.class);
-
     @EventSubscriber
     public void onReady(GuildCreateEvent event) {
-        LOG.info("[NEW] " + event.getGuild().getName() + " (" + event.getGuild().getUsers().size() + " users)");
+        Platform.runLater(() -> NotificationControl.updateEvent("Guild added: " + event.getGuild().getName()));
         // TODO add to tree
     }
 }

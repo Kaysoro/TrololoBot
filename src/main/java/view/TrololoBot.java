@@ -35,6 +35,7 @@ public class TrololoBot extends javafx.application.Application {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));
         NotificationControl.disconnected();
         NotificationControl.updateGuildsNumber();
+        NotificationControl.updateEvent(null);
 
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();

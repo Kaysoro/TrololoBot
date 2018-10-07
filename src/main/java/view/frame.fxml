@@ -6,8 +6,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -15,8 +13,8 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-      <fx:include source="menu.fxml" fx:id="menuBar" />
-    <SplitPane dividerPositions="0.20" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <fx:include fx:id="menuBar" source="menu.fxml" />
+    <SplitPane dividerPositions="0.2" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minViewportWidth="200.0" minWidth="200.0" prefViewportWidth="200.0" prefWidth="200.0">
                <content>
@@ -32,27 +30,48 @@
               </ScrollPane>
                </center>
                <bottom>
-                   <fx:include source="sendPanel.fxml" fx:id="sendPanel" />
+                   <fx:include fx:id="sendPanel" source="sendPanel.fxml" />
                </bottom>
             </BorderPane>
       </items>
     </SplitPane>
-      <HBox id="HBox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="588.0" spacing="5.0">
-         <children>
-            <Label fx:id="status" maxHeight="1.7976931348623157E308" maxWidth="-1.0" HBox.hgrow="ALWAYS">
+      <BorderPane prefHeight="25.0">
+         <left>
+            <Label fx:id="status" maxHeight="1.7976931348623157E308" maxWidth="-1.0" BorderPane.alignment="CENTER">
                <font>
                   <Font size="11.0" fx:id="x31" />
                </font>
                <textFill>
                   <Color blue="0.625" green="0.625" red="0.625" fx:id="x41" />
                </textFill>
+               <BorderPane.margin>
+                  <Insets left="5.0" />
+               </BorderPane.margin>
             </Label>
-            <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-            <Label font="$x31" maxWidth="-1.0" fx:id="stats" textFill="$x41" HBox.hgrow="NEVER" />
-         </children>
-         <padding>
-            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-         </padding>
-      </HBox>
+         </left>
+         <right>
+            <Label fx:id="stats" maxWidth="-1.0" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="11.0" fx:id="x42" />
+               </font>
+               <textFill>
+                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x43" />
+               </textFill>
+               <BorderPane.margin>
+                  <Insets right="5.0" />
+               </BorderPane.margin>
+            </Label>
+         </right>
+         <center>
+            <Label fx:id="events" maxWidth="-1.0" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="11.0" fx:id="x421" />
+               </font>
+               <textFill>
+                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x431" />
+               </textFill>
+            </Label>
+         </center>
+      </BorderPane>
   </children>
 </VBox>

@@ -8,20 +8,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.Permissions;
+import util.DiscordClient;
 
 public class ChannelItem extends AbstractItem {
 
     private IChannel channel;
+    private MenuItem connect;
 
     private ChannelItem(IChannel channel, TreeItem<DiscordItem> tree){
         super(channel.getLongID(), tree);
         this.channel = channel;
         node = new ImageView(DiscordSceneConstants.channelIcon);
 
-        MenuItem connect = new MenuItem("Connect to chat");
-        connect.setOnAction(event -> {
-            Channel.setChannel(channel);
-        });
+        connect = new MenuItem("Connect to chat");
+        connect.setOnAction(event -> Channel.setChannel(channel));
+        connect.setDisable(! channel.getModifiedPermissions(DiscordClient.DISCORD().getOurUser())
+                .contains(Permissions.READ_MESSAGES));
 
         MenuItem copyID = new MenuItem("Copy the identifier");
         copyID.setOnAction(event -> {
@@ -45,6 +48,8 @@ public class ChannelItem extends AbstractItem {
     @Override
     public void checkIntegrity() {
         // TODO authorize connect chat or not
+        connect.setDisable(! channel.getModifiedPermissions(DiscordClient.DISCORD().getOurUser())
+                .contains(Permissions.READ_MESSAGES));
     }
 
     @Override

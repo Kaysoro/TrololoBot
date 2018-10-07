@@ -82,9 +82,28 @@ public class ReadyListener {
 
 
         LOG.info("Adding Discord listeners...");
+        // Guild listeners
         DiscordClient.DISCORD().getDispatcher().registerListener(new GuildCreateListener());
         DiscordClient.DISCORD().getDispatcher().registerListener(new GuildLeaveListener());
-        DiscordClient.DISCORD().getDispatcher().registerListener(new RoleUpdateListener());
+
+        // Role listeners
+        DiscordClient.DISCORD().getDispatcher().registerListener(new RoleListener());
+
+        // Category listeners
+        DiscordClient.DISCORD().getDispatcher().registerListener(new CategoryCreateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new CategoryUpdateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new CategoryDeleteListener());
+
+        // Channel listeners
+        DiscordClient.DISCORD().getDispatcher().registerListener(new ChannelCreateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new ChannelUpdateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new ChannelDeleteListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new ChannelCategoryUpdateListener());
+
+        // Voice channel listeners
+        DiscordClient.DISCORD().getDispatcher().registerListener(new VoiceChannelCreateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new VoiceChannelUpdateListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new VoiceChannelDeleteListener());
 
         LOG.info("Listening Discord messages...");
         DiscordClient.DISCORD().getDispatcher().registerListener(new MessageReceivedListener());

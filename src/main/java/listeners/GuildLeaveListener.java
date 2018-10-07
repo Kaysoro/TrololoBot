@@ -1,5 +1,7 @@
 package listeners;
 
+import controllers.NotificationControl;
+import javafx.application.Platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -14,7 +16,7 @@ public class GuildLeaveListener {
 
     @EventSubscriber
     public void onReady(GuildLeaveEvent event) {
-        LOG.info("[LOSE] **" + event.getGuild().getName() + "** (" + event.getGuild().getUsers().size() +  " users)");
+        Platform.runLater(() -> NotificationControl.updateEvent("Guild losed: " + event.getGuild().getName()));
         // TODO remove guild
     }
 }
