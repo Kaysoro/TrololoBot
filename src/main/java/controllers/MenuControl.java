@@ -59,6 +59,7 @@ public class MenuControl implements Initializable {
                     } catch (DiscordException e){
                         ExceptionControl.throwException("Discord login - Error", e);
                         NotificationControl.disconnected();
+                        NotificationControl.updateGuildsNumber();
                     }
             });
         });

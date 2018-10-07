@@ -2,6 +2,7 @@ package view.tree;
 
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.TreeItem;
 
 public interface DiscordItem {
 
@@ -21,4 +22,19 @@ public interface DiscordItem {
      * @return Icon for treeItem
      */
     Node getNode();
+
+    /**
+     * @return tree item
+     */
+    TreeItem<DiscordItem> getTreeItem();
+
+    /**
+     * enable/disable menus in the current context
+     */
+    void checkIntegrity();
+
+    /**
+     * @return Class represented by the item
+     */
+    Class getDiscordClass();
 }

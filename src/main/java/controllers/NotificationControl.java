@@ -28,10 +28,11 @@ public class NotificationControl {
         status.setGraphic(DiscordSceneConstants.disconnectedIcon);
     }
 
-    public static void updateGuildsNumber(int guildsNumber, int vulnerableGuilds){
+    public static void updateGuildsNumber(){
         Label stats = ((Label) TrololoBot.getStage().getScene().lookup("#stats"));
         if (DiscordClient.DISCORD() != null && DiscordClient.DISCORD().isLoggedIn() && DiscordClient.DISCORD().isReady())
-            stats.setText(guildsNumber + " guild(s) with " + vulnerableGuilds + " vulnerable");
+            stats.setText(DiscordClient.DISCORD().getGuilds().size() + " guild(s) with "
+                    + GuildControl.getCountVulnerableGuilds() + " vulnerable");
         else
             stats.setText("No further information");
     }

@@ -46,27 +46,33 @@ public class ReadyListener {
         LOG.info("Displaying Discord listeners...");
 
         Platform.runLater(() -> {
-            TreeItem<DiscordItem> rootNode = new TreeItem<>(BotItem.of(event.getClient()));
+            TreeItem<DiscordItem> rootNode = new TreeItem<>();
+            rootNode.setValue(BotItem.of(event.getClient(), rootNode));
             rootNode.setExpanded(true);
-            int vulnerableGuilds = 0;
 
             for(IGuild guild : event.getClient().getGuilds()){
-                TreeItem<DiscordItem> guildItem = new TreeItem<>(GuildItem.of(guild));
+                TreeItem<DiscordItem> guildItem = new TreeItem<>();
+                guildItem.setValue(GuildItem.of(guild, guildItem));
                 for(ICategory category : guild.getCategories()) {
-                    TreeItem<DiscordItem> categoryItem = new TreeItem<>(CategoryItem.of(category));
+                    TreeItem<DiscordItem> categoryItem = new TreeItem<>();
+                    categoryItem.setValue(CategoryItem.of(category, guildItem));
                     for(IChannel channel : category.getChannels()) {
-                        TreeItem<DiscordItem> chanItem = new TreeItem<>(ChannelItem.of(channel));
+                        TreeItem<DiscordItem> chanItem = new TreeItem<>();
+                        chanItem.setValue(ChannelItem.of(channel, chanItem));
                         categoryItem.getChildren().add(chanItem);
                     }
-                    for(IVoiceChannel channel : category.getVoiceChannels())
-                        categoryItem.getChildren().add(new TreeItem<>(VoiceItem.of(channel)));
+                    for(IVoiceChannel channel : category.getVoiceChannels()) {
+                        TreeItem<DiscordItem> voiceItem = new TreeItem<>();
+                        voiceItem.setValue(VoiceItem.of(channel, voiceItem));
+                        categoryItem.getChildren().add(voiceItem);
+                    }
 
                     guildItem.getChildren().add(categoryItem);
                 }
                 rootNode.getChildren().add(guildItem);
             }
             tree.setRoot(rootNode);
-            NotificationControl.updateGuildsNumber(event.getClient().getGuilds().size(), vulnerableGuilds);
+            NotificationControl.updateGuildsNumber();
             NotificationControl.connected();
 
             usernameMenuItem.setDisable(false);
@@ -78,6 +84,7 @@ public class ReadyListener {
         LOG.info("Adding Discord listeners...");
         DiscordClient.DISCORD().getDispatcher().registerListener(new GuildCreateListener());
         DiscordClient.DISCORD().getDispatcher().registerListener(new GuildLeaveListener());
+        DiscordClient.DISCORD().getDispatcher().registerListener(new RoleUpdateListener());
 
         LOG.info("Listening Discord messages...");
         DiscordClient.DISCORD().getDispatcher().registerListener(new MessageReceivedListener());

@@ -2,10 +2,14 @@ package view.tree;
 
 import data.DiscordSceneConstants;
 import data.DiscordSecurityUtils;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import sx.blah.discord.handle.obj.IExtendedInvite;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.PermissionUtils;
@@ -14,39 +18,66 @@ import util.DiscordClient;
 public class GuildItem extends AbstractItem {
 
     private IGuild guild;
+    private MenuItem extendedInvites;
 
-    private GuildItem(IGuild guild){
-        super();
+    private GuildItem(IGuild guild, TreeItem<DiscordItem> tree){
+        super(guild.getLongID(), tree);
         this.guild = guild;
         if (DiscordSecurityUtils.isSecured(guild))
             node = new ImageView(DiscordSceneConstants.guildsIcon);
         else
             node = new ImageView(DiscordSceneConstants.guildnsIcon);
 
-        MenuItem copyID = new MenuItem("Copy Guild ID");
+        MenuItem showInfo = new MenuItem("Show Informations");
+        showInfo.setOnAction(event -> {
+            // TODO
+        });
+
+        extendedInvites = new MenuItem("Get invites");
+        extendedInvites.setOnAction(event -> {
+            String invites = guild.getExtendedInvites().stream()
+                    .map(IExtendedInvite::getCode)
+                    .reduce((a, b) -> a + "\n" + b)
+                    .orElse("nope");
+            System.out.println(invites);
+        });
+        if (! PermissionUtils.hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER))
+            extendedInvites.setDisable(true);
+
+        MenuItem copyID = new MenuItem("Copy the identifier");
         copyID.setOnAction(event -> {
             ClipboardContent content = new ClipboardContent();
             content.putString(guild.getStringID());
             Clipboard.getSystemClipboard().setContent(content);
         });
 
-        MenuItem connect = new MenuItem("Get invites");
-        connect.setOnAction(event -> {
-            guild.getExtendedInvites().stream().map(elem -> elem.getCode() + "\n");
-        });
-        if (! PermissionUtils.hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER))
-            connect.setDisable(true);
-
-        menu.getItems().add(copyID);
-        menu.getItems().add(connect);
+        menu.getItems().addAll(showInfo, extendedInvites, new SeparatorMenuItem(), copyID);
     }
 
-    public static DiscordItem of(IGuild guild){
-        return new GuildItem(guild);
+    public static DiscordItem of(IGuild guild, TreeItem<DiscordItem> tree){
+        return new GuildItem(guild, tree);
     }
 
     @Override
     public String getName() {
-        return guild.getName();
+        return guild.getName() + " (" + guild.getTotalMemberCount() + " users)";
+    }
+
+    @Override
+    public ContextMenu getMenu(){
+        return super.getMenu();
+    }
+
+    @Override
+    public void checkIntegrity() {
+        extendedInvites.setDisable(! PermissionUtils
+                .hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER));
+
+        // TODO change Node if vulnerable
+    }
+
+    @Override
+    public Class getDiscordClass() {
+        return IGuild.class;
     }
 }
