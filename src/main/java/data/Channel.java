@@ -13,6 +13,7 @@ public class Channel {
     public static void setChannel(IChannel channel) {
         Channel.channel = channel;
 
+        //  TODO clear panel messages
         if (channel != null){
             // TODO
         }

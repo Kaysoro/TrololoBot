@@ -24,7 +24,7 @@ public class GuildControl {
 
         guild.getCategories().forEach(category -> {
                     TreeItem<DiscordItem> categoryItem = new TreeItem<>();
-                    categoryItem.setValue(CategoryItem.of(category, guildItem));
+                    categoryItem.setValue(CategoryItem.of(category, categoryItem));
 
                     category.getChannels().forEach(channel -> {
                         TreeItem<DiscordItem> chanItem = new TreeItem<>();

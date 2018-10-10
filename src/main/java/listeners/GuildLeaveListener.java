@@ -23,5 +23,6 @@ public class GuildLeaveListener {
                     .getRoot().getChildren().remove(
                             DiscordRegistry.get(IGuild.class, event.getGuild().getLongID()).getTreeItem());
         });
+        DiscordRegistry.remove(IGuild.class, event.getGuild().getLongID());
     }
 }
