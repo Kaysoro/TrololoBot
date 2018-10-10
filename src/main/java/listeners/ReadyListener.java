@@ -1,5 +1,6 @@
 package listeners;
 
+import controllers.GuildControl;
 import controllers.NotificationControl;
 import javafx.application.Platform;
 import javafx.scene.control.MenuItem;
@@ -9,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
-import sx.blah.discord.handle.obj.ICategory;
-import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IVoiceChannel;
 import util.DiscordClient;
 import view.tree.*;
 
@@ -50,27 +48,8 @@ public class ReadyListener {
             rootNode.setValue(BotItem.of(event.getClient(), rootNode));
             rootNode.setExpanded(true);
 
-            for(IGuild guild : event.getClient().getGuilds()){
-                TreeItem<DiscordItem> guildItem = new TreeItem<>();
-                guildItem.setValue(GuildItem.of(guild, guildItem));
-                for(ICategory category : guild.getCategories()) {
-                    TreeItem<DiscordItem> categoryItem = new TreeItem<>();
-                    categoryItem.setValue(CategoryItem.of(category, guildItem));
-                    for(IChannel channel : category.getChannels()) {
-                        TreeItem<DiscordItem> chanItem = new TreeItem<>();
-                        chanItem.setValue(ChannelItem.of(channel, chanItem));
-                        categoryItem.getChildren().add(chanItem);
-                    }
-                    for(IVoiceChannel channel : category.getVoiceChannels()) {
-                        TreeItem<DiscordItem> voiceItem = new TreeItem<>();
-                        voiceItem.setValue(VoiceItem.of(channel, voiceItem));
-                        categoryItem.getChildren().add(voiceItem);
-                    }
-
-                    guildItem.getChildren().add(categoryItem);
-                }
-                rootNode.getChildren().add(guildItem);
-            }
+            for(IGuild guild : event.getClient().getGuilds())
+                rootNode.getChildren().add(GuildControl.createGuild(guild));
             tree.setRoot(rootNode);
             NotificationControl.updateGuildsNumber();
             NotificationControl.connected();
