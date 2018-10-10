@@ -15,6 +15,7 @@ public class ChannelCategoryUpdateListener {
 
     @EventSubscriber
     public void onReady(ChannelCategoryUpdateEvent event) {
+        // TODO manage all cases
         DiscordRegistry.get(ICategory.class, event.getNewCategory().getLongID()).checkIntegrity();
         DiscordRegistry.get(IChannel.class, event.getNewChannel().getLongID()).checkIntegrity();
         Platform.runLater(() -> NotificationControl.updateEvent("Channel Category updated: "

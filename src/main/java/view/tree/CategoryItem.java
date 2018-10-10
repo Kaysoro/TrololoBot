@@ -1,5 +1,6 @@
 package view.tree;
 
+import data.DiscordRegistry;
 import data.DiscordSceneConstants;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
@@ -7,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import sx.blah.discord.handle.obj.ICategory;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IVoiceChannel;
 
 public class CategoryItem extends AbstractItem {
 
@@ -38,7 +41,8 @@ public class CategoryItem extends AbstractItem {
 
     @Override
     public void checkIntegrity() {
-        // Nothing to do
+        category.getChannels().forEach(channel -> DiscordRegistry.get(IChannel.class, channel.getLongID()).checkIntegrity());
+        category.getVoiceChannels().forEach(channel -> DiscordRegistry.get(IVoiceChannel.class, channel.getLongID()).checkIntegrity());
     }
 
     @Override
