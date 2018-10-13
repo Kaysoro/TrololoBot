@@ -27,7 +27,7 @@ public class ChannelDeleteListener {
             else
                 DiscordRegistry.get(IGuild.class, event.getGuild().getLongID()).getTreeItem().getChildren()
                         .remove(DiscordRegistry.get(IChannel.class, event.getChannel().getLongID()).getTreeItem());
+            DiscordRegistry.remove(IChannel.class, event.getChannel().getLongID());
         });
-        DiscordRegistry.remove(IChannel.class, event.getChannel().getLongID());
     }
 }

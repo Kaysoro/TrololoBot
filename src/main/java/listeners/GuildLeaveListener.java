@@ -22,7 +22,7 @@ public class GuildLeaveListener {
             ((TreeView<DiscordItem>) TrololoBot.getStage().getScene().lookup("#tree"))
                     .getRoot().getChildren().remove(
                             DiscordRegistry.get(IGuild.class, event.getGuild().getLongID()).getTreeItem());
+            DiscordRegistry.remove(IGuild.class, event.getGuild().getLongID());
         });
-        DiscordRegistry.remove(IGuild.class, event.getGuild().getLongID());
     }
 }

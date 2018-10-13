@@ -4,7 +4,7 @@ import controllers.NotificationControl;
 import data.DiscordRegistry;
 import javafx.application.Platform;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.voice.VoiceChannelCreateEvent;
+import sx.blah.discord.handle.impl.events.guild.voice.VoiceChannelDeleteEvent;
 import sx.blah.discord.handle.obj.ICategory;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IVoiceChannel;
@@ -15,7 +15,7 @@ import sx.blah.discord.handle.obj.IVoiceChannel;
 public class VoiceChannelDeleteListener {
 
     @EventSubscriber
-    public void onReady(VoiceChannelCreateEvent event) {
+    public void onReady(VoiceChannelDeleteEvent event) {
         Platform.runLater(() -> {
             NotificationControl.updateEvent("Voice Channel deleted: "
                 + event.getGuild().getName() + " > " + event.getVoiceChannel().getName());
@@ -26,7 +26,7 @@ public class VoiceChannelDeleteListener {
             else
                 DiscordRegistry.get(IGuild.class, event.getGuild().getLongID()).getTreeItem().getChildren()
                         .remove(DiscordRegistry.get(IVoiceChannel.class, event.getVoiceChannel().getLongID()).getTreeItem());
+            DiscordRegistry.remove(IVoiceChannel.class, event.getVoiceChannel().getLongID());
         });
-        DiscordRegistry.remove(IVoiceChannel.class, event.getVoiceChannel().getLongID());
     }
 }
