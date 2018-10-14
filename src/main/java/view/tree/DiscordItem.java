@@ -2,6 +2,7 @@ package view.tree;
 
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 
 public interface DiscordItem {
@@ -37,4 +38,6 @@ public interface DiscordItem {
      * @return Class represented by the item
      */
     Class getDiscordClass();
+
+    Tooltip getToolTip();
 }

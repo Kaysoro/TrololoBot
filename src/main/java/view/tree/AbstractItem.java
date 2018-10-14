@@ -3,12 +3,14 @@ package view.tree;
 import data.DiscordRegistry;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 
 public abstract class AbstractItem implements DiscordItem {
 
     ContextMenu menu;
     Node node;
+    Tooltip tooltip;
     private TreeItem<DiscordItem> treeItem;
 
     AbstractItem(long id, TreeItem<DiscordItem> tree){
@@ -27,6 +29,9 @@ public abstract class AbstractItem implements DiscordItem {
     public ContextMenu getMenu() {
         return menu;
     }
+
+    @Override
+    public Tooltip getToolTip() { return tooltip; }
 
     @Override
     public Node getNode() {

@@ -58,11 +58,13 @@ public class TrololoBot extends javafx.application.Application {
                 setText(item.getName());
                 setGraphic(item.getNode());
                 setContextMenu(item.getMenu());
+                setTooltip(item.getToolTip());
             }
             else {
                 setText(null);
                 setGraphic(null);
                 setContextMenu(null);
+                setTooltip(null);
             }
         }
     }

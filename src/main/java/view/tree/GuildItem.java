@@ -1,11 +1,8 @@
 package view.tree;
 
-import data.DiscordSceneConstants;
 import data.DiscordSecurityUtils;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TreeItem;
+import data.SECURITY_LEVEL;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -23,10 +20,8 @@ public class GuildItem extends AbstractItem {
     private GuildItem(IGuild guild, TreeItem<DiscordItem> tree){
         super(guild.getLongID(), tree);
         this.guild = guild;
-        if (DiscordSecurityUtils.isSecured(guild))
-            node = new ImageView(DiscordSceneConstants.guildsIcon);
-        else
-            node = new ImageView(DiscordSceneConstants.guildnsIcon);
+        this.tooltip = new Tooltip();
+        checkVulnerability();
 
         MenuItem showInfo = new MenuItem("Show Informations");
         showInfo.setOnAction(event -> {
@@ -39,6 +34,7 @@ public class GuildItem extends AbstractItem {
                     .map(IExtendedInvite::getCode)
                     .reduce((a, b) -> a + "\n" + b)
                     .orElse("nope");
+            // TODO
             System.out.println(invites);
         });
         if (! PermissionUtils.hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER))
@@ -72,12 +68,17 @@ public class GuildItem extends AbstractItem {
     public void checkIntegrity() {
         extendedInvites.setDisable(! PermissionUtils
                 .hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER));
-
-        // TODO change Node if vulnerable
+        checkVulnerability();
     }
 
     @Override
     public Class getDiscordClass() {
         return IGuild.class;
+    }
+
+    private void checkVulnerability(){
+        SECURITY_LEVEL level = DiscordSecurityUtils.getSecurityLevel(guild);
+        node = new ImageView(level.getImage());
+        tooltip.setText(level.getToolTipText());
     }
 }
