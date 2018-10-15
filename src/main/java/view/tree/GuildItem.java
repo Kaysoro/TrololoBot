@@ -7,12 +7,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.shape.Circle;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import sx.blah.discord.handle.obj.IExtendedInvite;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.PermissionUtils;
 import util.DiscordClient;
 import util.DiscordViewUtils;
+
+import java.util.Comparator;
 
 public class GuildItem extends AbstractItem {
 
@@ -43,11 +46,19 @@ public class GuildItem extends AbstractItem {
         extendedInvites = new MenuItem("Get invites");
         extendedInvites.setOnAction(event -> {
             String invites = guild.getExtendedInvites().stream()
-                    .map(IExtendedInvite::getCode)
+                    .filter(invite -> ! invite.isRevoked())
+                    .sorted(Comparator.comparing(IExtendedInvite::getUses))
+                    .map(invite -> invite.getCode() + " (" + invite.getUses() + "/" + invite.getMaxUses() + " uses, "
+                            + (invite.isTemporary() ? "expire in " + DurationFormatUtils.formatDuration(invite.getMaxAge() * 1000L,
+                            "H:mm:ss", true) : "never expire") + ")")
                     .reduce((a, b) -> a + "\n" + b)
-                    .orElse("nope");
-            // TODO
-            System.out.println(invites);
+                    .orElse("No invite created.");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Guild invites");
+            alert.setHeaderText(null);
+            alert.setContentText(invites);
+            alert.showAndWait();
         });
         if (! PermissionUtils.hasPermissions(guild, DiscordClient.DISCORD().getOurUser(), Permissions.MANAGE_SERVER))
             extendedInvites.setDisable(true);
