@@ -16,6 +16,7 @@ public class DiscordSceneConstants {
     public static final Image categoryIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/category.png"));
     public static final Image channelIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/channel.png"));
     public static final Image voiceIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/voice.png"));
+    public static final Image noIcon = new Image(DiscordSceneConstants.class.getResourceAsStream("../images/noIcon.png"));
 
     // Notification bar
     public static final Node connectingIcon = new ImageView(new Image(DiscordSceneConstants.class.getResourceAsStream("../images/connecting.png")));

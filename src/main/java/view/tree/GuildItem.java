@@ -6,11 +6,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.shape.Circle;
 import sx.blah.discord.handle.obj.IExtendedInvite;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.PermissionUtils;
 import util.DiscordClient;
+import util.DiscordViewUtils;
 
 public class GuildItem extends AbstractItem {
 
@@ -25,7 +27,17 @@ public class GuildItem extends AbstractItem {
 
         MenuItem showInfo = new MenuItem("Show Informations");
         showInfo.setOnAction(event -> {
-            // TODO
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Guild informations");
+            alert.setHeaderText(guild.getName());
+            alert.setContentText("Member count: " + guild.getTotalMemberCount() + "\n"
+                + "Creation date: " + DiscordViewUtils.format(guild.getCreationDate()) + "\n"
+                + "Owner: " + guild.getOwner().getName() + "#" + guild.getOwner().getDiscriminator());
+            ImageView view = new ImageView(DiscordViewUtils.getImage(guild.getIconURL()));
+            view.setClip(new Circle(view.getLayoutBounds().getMaxX() / 2,
+                    view.getLayoutBounds().getMaxY() / 2, view.getLayoutBounds().getMaxX() / 2));
+            alert.setGraphic(view);
+            alert.showAndWait();
         });
 
         extendedInvites = new MenuItem("Get invites");
