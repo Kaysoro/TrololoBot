@@ -2,11 +2,14 @@ package view.tree;
 
 import data.Constants;
 import data.DiscordSceneConstants;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.shape.Circle;
 import sx.blah.discord.api.IDiscordClient;
+import util.DiscordViewUtils;
 
 public class BotItem extends AbstractItem {
 
@@ -19,7 +22,19 @@ public class BotItem extends AbstractItem {
 
         MenuItem showInfo = new MenuItem("Show Informations");
         showInfo.setOnAction(event -> {
-            // TODO
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Bot informations");
+            alert.setHeaderText(client.getApplicationName() + "\n" + client.getApplicationDescription());
+            alert.setContentText("Guild count: " + client.getGuilds().size() + "\n"
+                    + "User count: " + client.getUsers().size() + "\n"
+                    + "Client ID: " + client.getApplicationClientID() + "\n"
+                    + "Token: " + client.getToken() + "\n"
+                    + "Owner: " + client.getApplicationOwner().getName() + "#" + client.getApplicationOwner().getDiscriminator());
+            ImageView view = new ImageView(DiscordViewUtils.getImage(client.getApplicationIconURL()));
+            view.setClip(new Circle(view.getLayoutBounds().getMaxX() / 2,
+                    view.getLayoutBounds().getMaxY() / 2, view.getLayoutBounds().getMaxX() / 2));
+            alert.setGraphic(view);
+            alert.showAndWait();
         });
 
         MenuItem getBotInvite = new MenuItem("Copy the bot invite");
