@@ -74,7 +74,6 @@ public class ChannelItem extends AbstractItem {
 
     @Override
     public void checkIntegrity() {
-        // TODO authorize connect chat or not
         connect.setDisable(! channel.getModifiedPermissions(DiscordClient.DISCORD().getOurUser())
                 .contains(Permissions.READ_MESSAGES));
         createInvite.setDisable(! channel.getModifiedPermissions(DiscordClient.DISCORD().getOurUser())

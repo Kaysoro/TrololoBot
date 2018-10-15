@@ -38,7 +38,7 @@ public class VoiceItem extends AbstractItem {
 
     @Override
     public void checkIntegrity() {
-        // TODO authorize voice connexion or not
+        // Nothing to do
     }
 
     @Override
