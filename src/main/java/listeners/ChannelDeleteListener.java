@@ -1,6 +1,7 @@
 package listeners;
 
 import controllers.NotificationControl;
+import controllers.ChannelControl;
 import data.DiscordRegistry;
 import javafx.application.Platform;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -28,6 +29,9 @@ public class ChannelDeleteListener {
                 DiscordRegistry.get(IGuild.class, event.getGuild().getLongID()).getTreeItem().getChildren()
                         .remove(DiscordRegistry.get(IChannel.class, event.getChannel().getLongID()).getTreeItem());
             DiscordRegistry.remove(IChannel.class, event.getChannel().getLongID());
+
+            if (ChannelControl.getChannel() != null && ChannelControl.getChannel().getLongID() == event.getChannel().getLongID())
+                ChannelControl.setChannel(null);
         });
     }
 }

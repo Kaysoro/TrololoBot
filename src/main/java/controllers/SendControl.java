@@ -1,6 +1,5 @@
 package controllers;
 
-import data.Channel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
@@ -28,7 +27,7 @@ public class SendControl  implements Initializable {
     @FXML
     private void sendText() {
         if (! myTextArea.getText().trim().isEmpty()){
-            Message.sendText(Channel.getChannel(), myTextArea.getText());
+            Message.sendText(ChannelControl.getChannel(), myTextArea.getText());
             myTextArea.setText("");
         }
         else if (myTextArea.getText().matches("\\s+"))
@@ -38,7 +37,7 @@ public class SendControl  implements Initializable {
     @FXML
     private void shortcutSendText(KeyEvent event) {
         if (! myTextArea.getText().trim().isEmpty() && event.getCode() == KeyCode.ENTER && ! event.isShiftDown()){
-            Message.sendText(Channel.getChannel(), myTextArea.getText());
+            Message.sendText(ChannelControl.getChannel(), myTextArea.getText());
             myTextArea.setText("");
         }
         else if (myTextArea.getText().matches("\\s+") && ! event.isShiftDown())
@@ -62,7 +61,7 @@ public class SendControl  implements Initializable {
         File file = fileChooser.showOpenDialog(TrololoBot.getStage());
         if (file != null && file.exists())
             try {
-                Message.sendImage(Channel.getChannel(), ImageIO.read(file), file.getName());
+                Message.sendImage(ChannelControl.getChannel(), ImageIO.read(file), file.getName());
             } catch(IOException e){
                 ExceptionControl.throwException("Send image - Error", e);
             }
@@ -75,7 +74,7 @@ public class SendControl  implements Initializable {
         File file = fileChooser.showOpenDialog(TrololoBot.getStage());
         if (file != null && file.exists())
             try {
-                Message.sendFile(Channel.getChannel(), new FileInputStream(file), file.getName());
+                Message.sendFile(ChannelControl.getChannel(), new FileInputStream(file), file.getName());
             } catch(IOException e){
                 ExceptionControl.throwException("Send file - Error", e);
             }

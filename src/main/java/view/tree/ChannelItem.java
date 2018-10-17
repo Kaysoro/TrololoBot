@@ -1,7 +1,7 @@
 package view.tree;
 
 import controllers.ExceptionControl;
-import data.Channel;
+import controllers.ChannelControl;
 import data.DiscordSceneConstants;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -28,7 +28,7 @@ public class ChannelItem extends AbstractItem {
         node = new ImageView(DiscordSceneConstants.channelIcon);
 
         connect = new MenuItem("Connect to chat");
-        connect.setOnAction(event -> Channel.setChannel(channel));
+        connect.setOnAction(event -> ChannelControl.setChannel(channel));
         connect.setDisable(! channel.getModifiedPermissions(DiscordClient.DISCORD().getOurUser())
                 .contains(Permissions.READ_MESSAGES));
 

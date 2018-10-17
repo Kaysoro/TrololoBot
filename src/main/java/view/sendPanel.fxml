@@ -17,10 +17,10 @@
      <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
           <buttons>
-            <Button mnemonicParsing="false" disable="true" onAction="#sendText" text="Text" />
-              <Button layoutX="115.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendEmbed" text="Embed" />
-              <Button layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendImage" text="Image" />
-              <Button layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendFile" text="File" />
+            <Button fx:id="sendText" mnemonicParsing="false" disable="true" onAction="#sendText" text="Text" />
+              <Button fx:id="sendEmbed" layoutX="115.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendEmbed" text="Embed" />
+              <Button fx:id="sendImage" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendImage" text="Image" />
+              <Button fx:id="sendFile" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendFile" text="File" />
           </buttons>
         </ButtonBar>
      </bottom>

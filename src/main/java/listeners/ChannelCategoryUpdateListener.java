@@ -34,7 +34,6 @@ public class ChannelCategoryUpdateListener {
             oldParent.getChildren().remove(channel.getTreeItem());
             newParent.getChildren().add(channel.getTreeItem());
             newParent.getValue().checkIntegrity();
-            channel.checkIntegrity();
         });
     }
 }

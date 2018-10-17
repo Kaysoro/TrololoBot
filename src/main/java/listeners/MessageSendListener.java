@@ -1,6 +1,6 @@
 package listeners;
 
-import data.Channel;
+import controllers.ChannelControl;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageSendEvent;
 
@@ -11,7 +11,7 @@ public class MessageSendListener {
 
     @EventSubscriber
     public void onReady(MessageSendEvent event) {
-        if (Channel.getChannel() != null && event.getChannel().getLongID() == Channel.getChannel().getLongID()){
+        if (ChannelControl.getChannel() != null && event.getChannel().getLongID() == ChannelControl.getChannel().getLongID()){
             //TODO show message sent
         }
     }
