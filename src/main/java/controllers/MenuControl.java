@@ -5,12 +5,13 @@ import data.DiscordSceneConstants;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.TreeView;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import listeners.ReadyListener;
+import sx.blah.discord.handle.obj.ActivityType;
+import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.Image;
 import sx.blah.discord.util.RateLimitException;
@@ -125,7 +126,48 @@ public class MenuControl implements Initializable {
 
     @FXML
     private void changeDispatcher() {
-        // TODO
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Change dispatcher");
+        dialog.setHeaderText(null);
+
+        ComboBox<StatusType> statusTypeComboBox = new ComboBox<>();
+        statusTypeComboBox.getItems().addAll(StatusType.values());
+        statusTypeComboBox.setValue(DiscordClient.DISCORD().getOurUser().getPresence().getStatus());
+        ComboBox<ActivityType> activityTypeComboBox = new ComboBox<>();
+        activityTypeComboBox.getItems().addAll(ActivityType.values());
+        activityTypeComboBox.setValue(DiscordClient.DISCORD().getOurUser().getPresence().getActivity().orElse(null));
+        TextField text = new TextField(DiscordClient.DISCORD().getOurUser().getPresence().getText().orElse(null));
+        GridPane grid = new GridPane();
+        grid.add(new Label("Status: "), 1, 1);
+        grid.add(statusTypeComboBox, 2, 1);
+        grid.add(new Label("Activity: "), 1, 2);
+        grid.add(activityTypeComboBox, 2, 2);
+        grid.add(new Label("Text: "), 1, 3);
+        grid.add(text, 2, 3);
+        grid.setPadding(new Insets(5, 5, 5, 5));
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        ButtonType button = dialog.showAndWait().orElse(ButtonType.CANCEL);
+        if (button.equals(ButtonType.OK))
+            RequestBuffer.request(() -> {
+                try {
+                    DiscordClient.DISCORD().changePresence(statusTypeComboBox.getValue(), activityTypeComboBox.getValue(), text.getText());
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Change Dispatcher");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Dispatcher change succeeded. It will take some time to see the effects.");
+                        alert.showAndWait();
+                    });
+                } catch (RateLimitException e) {
+                    ExceptionControl.throwException("Change Dispatcher - Error", e);
+                    throw e;
+                } catch (DiscordException e) {
+                    ExceptionControl.throwException("Change Dispatcher - Error", e);
+                }
+            });
     }
 
     @FXML
