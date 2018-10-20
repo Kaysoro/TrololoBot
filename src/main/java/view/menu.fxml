@@ -7,46 +7,43 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 
 
-<MenuBar xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuControl">
-    <menus>
-        <Menu mnemonicParsing="false" text="File">
-            <items>
-                <MenuItem mnemonicParsing="false" text="Login" onAction="#loginDiscord">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-                <MenuItem mnemonicParsing="false" fx:id="usernameMenuItem" text="Username" onAction="#changeUsername" disable="true">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-                <MenuItem mnemonicParsing="false" fx:id="avatarMenuItem" text="Avatar" onAction="#changeAvatar" disable="true">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-                <MenuItem mnemonicParsing="false" fx:id="dispatcherMenuItem" text="Dispatcher" onAction="#changeDispatcher" disable="true">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-                <SeparatorMenuItem mnemonicParsing="false" />
-                <MenuItem mnemonicParsing="false" text="Quit" onAction="#quit" fx:id="quitItem">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-            </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-            <items>
-                <MenuItem mnemonicParsing="false" text="About" onAction="#about">
-                    <accelerator>
-                        <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                </MenuItem>
-            </items>
-        </Menu>
-    </menus>
+<MenuBar xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="controllers.MenuControl">
+    <Menu mnemonicParsing="false" text="File">
+        <MenuItem mnemonicParsing="false" text="Login" onAction="#loginDiscord">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" fx:id="usernameMenuItem" text="Username" onAction="#changeUsername"
+                  disable="true">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" fx:id="avatarMenuItem" text="Avatar" onAction="#changeAvatar" disable="true">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+        <MenuItem mnemonicParsing="false" fx:id="dispatcherMenuItem" text="Dispatcher" onAction="#changeDispatcher"
+                  disable="true">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <MenuItem mnemonicParsing="false" text="Quit" onAction="#quit">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" text="About" onAction="#about">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+            </accelerator>
+        </MenuItem>
+    </Menu>
 </MenuBar>

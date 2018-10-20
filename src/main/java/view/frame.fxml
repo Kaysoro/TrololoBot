@@ -9,69 +9,66 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.web.WebView?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-      <fx:include fx:id="menuBar" source="menu.fxml" />
-    <SplitPane dividerPositions="0.2" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <items>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minViewportWidth="200.0" minWidth="200.0" prefViewportWidth="200.0" prefWidth="200.0">
-               <content>
-                  <TreeView fx:id="tree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-               </content>
-            </ScrollPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0">
-               <center>
-              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="-1.0" prefWidth="-1.0" BorderPane.alignment="CENTER">
-                     <content>
-                        <WebView prefHeight="200.0" prefWidth="200.0" />
-                     </content>
-              </ScrollPane>
-               </center>
-               <bottom>
-                   <fx:include fx:id="sendPanel" source="sendPanel.fxml" />
-               </bottom>
-            </BorderPane>
-      </items>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <fx:include fx:id="menuBar" source="menu.fxml"/>
+    <SplitPane dividerPositions="0.2" focusTraversable="true" VBox.vgrow="ALWAYS">
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minViewportWidth="200.0" minWidth="200.0"
+                    prefViewportWidth="200.0" prefWidth="200.0">
+            <TreeView fx:id="tree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"/>
+        </ScrollPane>
+        <BorderPane prefHeight="200.0" prefWidth="200.0">
+            <center>
+                <ScrollPane fx:id="scrollMessages" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                    <VBox fx:id="messages" spacing="10">
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                    </VBox>
+                </ScrollPane>
+            </center>
+            <bottom>
+                <fx:include fx:id="sendPanel" source="sendPanel.fxml"/>
+            </bottom>
+        </BorderPane>
     </SplitPane>
-      <BorderPane prefHeight="25.0">
-         <left>
-            <Label fx:id="status" maxHeight="1.7976931348623157E308" maxWidth="-1.0" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="11.0" fx:id="x31" />
-               </font>
-               <textFill>
-                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x41" />
-               </textFill>
-               <BorderPane.margin>
-                  <Insets left="5.0" />
-               </BorderPane.margin>
+    <BorderPane prefHeight="25.0">
+        <left>
+            <Label fx:id="status" maxHeight="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                <font>
+                    <Font size="11.0" fx:id="x31"/>
+                </font>
+                <textFill>
+                    <Color blue="0.625" green="0.625" red="0.625" fx:id="x41"/>
+                </textFill>
+                <BorderPane.margin>
+                    <Insets left="5.0"/>
+                </BorderPane.margin>
             </Label>
-         </left>
-         <right>
-            <Label fx:id="stats" maxWidth="-1.0" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="11.0" fx:id="x42" />
-               </font>
-               <textFill>
-                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x43" />
-               </textFill>
-               <BorderPane.margin>
-                  <Insets right="5.0" />
-               </BorderPane.margin>
+        </left>
+        <right>
+            <Label fx:id="stats" BorderPane.alignment="CENTER">
+                <font>
+                    <Font size="11.0" fx:id="x42"/>
+                </font>
+                <textFill>
+                    <Color blue="0.625" green="0.625" red="0.625" fx:id="x43"/>
+                </textFill>
+                <BorderPane.margin>
+                    <Insets right="5.0"/>
+                </BorderPane.margin>
             </Label>
-         </right>
-         <center>
-            <Label fx:id="events" maxWidth="-1.0" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="11.0" fx:id="x421" />
-               </font>
-               <textFill>
-                  <Color blue="0.625" green="0.625" red="0.625" fx:id="x431" />
-               </textFill>
+        </right>
+        <center>
+            <Label fx:id="events" BorderPane.alignment="CENTER">
+                <font>
+                    <Font size="11.0" fx:id="x421"/>
+                </font>
+                <textFill>
+                    <Color blue="0.625" green="0.625" red="0.625" fx:id="x431"/>
+                </textFill>
             </Label>
-         </center>
-      </BorderPane>
-  </children>
+        </center>
+    </BorderPane>
 </VBox>

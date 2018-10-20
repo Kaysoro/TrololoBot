@@ -1,11 +1,15 @@
 package controllers;
 
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.MessageHistory;
+import sx.blah.discord.handle.obj.IDiscordObject;
+import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.PermissionUtils;
 import util.DiscordClient;
+import util.DiscordViewUtils;
 import view.TrololoBot;
-
+import java.util.Comparator;
 import java.util.EnumSet;
 
 import static sx.blah.discord.handle.obj.Permissions.*;
@@ -21,13 +25,16 @@ public class ChannelControl {
     }
 
     public static void setChannel(IChannel channel) {
-        //  TODO clear panel messages
+        VBox panelMessages = (VBox) TrololoBot.getStage().getScene().lookup("#messages");
+        panelMessages.getChildren().clear();
         ChannelControl.channel = channel;
         if (channel != null && PermissionUtils.hasPermissions(channel, DiscordClient.DISCORD().getOurUser(),
                 EnumSet.of(READ_MESSAGES, READ_MESSAGE_HISTORY))){
-            MessageHistory history = channel.getMessageHistory(MESSAGE_HISTORY_LIMIT);
-            history.forEach(System.out::println);
-            // TODO Download 20 last messages if possible
+            channel.getMessageHistory(MESSAGE_HISTORY_LIMIT).stream()
+                    .sorted(Comparator.comparing(IDiscordObject::getCreationDate))
+                    .forEach(message -> panelMessages.getChildren().add(DiscordViewUtils.getMessageView(message)));
+            ScrollPane scrollPane = ((ScrollPane) TrololoBot.getStage().getScene().lookup("#scrollMessages"));
+            scrollPane.setVvalue(scrollPane.getVmax());
         }
         checkActionChannel(channel);
     }
@@ -52,6 +59,15 @@ public class ChannelControl {
             TrololoBot.getStage().getScene().lookup("#sendEmbed").setDisable(true);
             TrololoBot.getStage().getScene().lookup("#sendImage").setDisable(true);
             TrololoBot.getStage().getScene().lookup("#sendFile").setDisable(true);
+        }
+    }
+
+    public static void manageMessage(IMessage message){
+        if (getChannel() != null && message.getChannel().getLongID() == getChannel().getLongID()) {
+            ((VBox) TrololoBot.getStage().getScene().lookup("#messages")).getChildren()
+                    .add(DiscordViewUtils.getMessageView(message));
+            ScrollPane scrollPane = ((ScrollPane) TrololoBot.getStage().getScene().lookup("#scrollMessages"));
+            scrollPane.setVvalue(scrollPane.getVmax());
         }
     }
 }

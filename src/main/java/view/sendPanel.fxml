@@ -2,26 +2,25 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="100.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SendControl">
-     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" BorderPane.alignment="CENTER">
-           <content>
-              <TextArea fx:id="myTextArea" onKeyReleased="#shortcutSendText" disable="true" wrapText="true" />
-           </content>
-        </ScrollPane>
-     </center>
-     <bottom>
+<BorderPane prefHeight="100.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SendControl">
+    <center>
+        <TextArea fx:id="myTextArea" onKeyReleased="#shortcutSendText" disable="true" wrapText="true"/>
+    </center>
+    <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-          <buttons>
-            <Button fx:id="sendText" mnemonicParsing="false" disable="true" onAction="#sendText" text="Text" />
-              <Button fx:id="sendEmbed" layoutX="115.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendEmbed" text="Embed" />
-              <Button fx:id="sendImage" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendImage" text="Image" />
-              <Button fx:id="sendFile" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true" onAction="#sendFile" text="File" />
-          </buttons>
+            <buttons>
+                <Button fx:id="sendText" mnemonicParsing="false" disable="true" onAction="#sendText" text="Text"/>
+                <Button fx:id="sendEmbed" layoutX="115.0" layoutY="18.0" mnemonicParsing="false" disable="true"
+                        onAction="#sendEmbed" text="Embed"/>
+                <Button fx:id="sendImage" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true"
+                        onAction="#sendImage" text="Image"/>
+                <Button fx:id="sendFile" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" disable="true"
+                        onAction="#sendFile" text="File"/>
+            </buttons>
         </ButtonBar>
-     </bottom>
+    </bottom>
 </BorderPane>
