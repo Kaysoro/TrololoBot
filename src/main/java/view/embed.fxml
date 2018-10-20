@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="450.0" maxWidth="600.0" minHeight="450.0" minWidth="600.0" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EmbedControl">
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button mnemonicParsing="false" text="Send" onAction="#send"/>
+          <Button mnemonicParsing="false" text="Cancel" onAction="#cancel"/>
+        </buttons>
+      </ButtonBar>
+   </bottom>
+   <center>
+      <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="General Informations">
+               <content>
+              <AnchorPane prefHeight="1.0" prefWidth="590.0">
+                     <children>
+                        <VBox prefHeight="350.0" prefWidth="590.0" spacing="5.0">
+                           <children>
+                              <TextField fx:id="title" prefHeight="25.0" prefWidth="590.0" promptText="Title"/>
+                              <TextArea fx:id="description" prefHeight="50.0" prefWidth="590.0" promptText="Description" wrapText="true" />
+                              <TextField fx:id="titleUrl" layoutX="10.0" layoutY="10.0" promptText="Title URL"/>
+                              <ColorPicker fx:id="color" promptText="Color"/>
+                              <TextField fx:id="thumbnailUrl" layoutX="10.0" layoutY="85.0" promptText="Thumbnail URL"/>
+                              <TextField fx:id="imageUrl" layoutX="10.0" layoutY="135.0" promptText="Image URL"/>
+                              <TextField fx:id="author" layoutX="10.0" layoutY="10.0" promptText="Author"/>
+                              <TextField fx:id="authorUrl" layoutX="10.0" layoutY="135.0" promptText="Author URL"/>
+                              <TextField fx:id="authorIcon" layoutX="10.0" layoutY="185.0" promptText="Author Icon URL"/>
+                              <TextField fx:id="footer" layoutX="10.0" layoutY="185.0" promptText="Footer"/>
+                              <TextField fx:id="footerIcon" layoutX="10.0" layoutY="210.0" promptText="Footer Icon URL"/>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+          <Tab text="Fields">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="370.0" prefWidth="590.0">
+                           <top>
+                              <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <buttons>
+                                  <Button mnemonicParsing="false" text="Add field" onAction="#addField"/>
+                                </buttons>
+                              </ButtonBar>
+                           </top>
+                           <center>
+                              <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0">
+                                       <children>
+                                          <VBox fx:id="fieldsPane"/>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</BorderPane>

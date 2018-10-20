@@ -1,11 +1,17 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import util.Message;
 import view.TrololoBot;
 
@@ -50,7 +56,21 @@ public class SendControl  implements Initializable {
 
     @FXML
     private void sendEmbed() {
-        // TODO
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../view/embed.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Send Embed");
+            stage.setResizable(false);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));
+            stage.initOwner(TrololoBot.getStage());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch(Exception e) {
+            ExceptionControl.throwException("Send embed - Error", e);
+        }
     }
 
     @FXML

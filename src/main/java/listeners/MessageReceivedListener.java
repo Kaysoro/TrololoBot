@@ -15,8 +15,5 @@ public class MessageReceivedListener {
         if (ChannelControl.getChannel() != null && event.getChannel().getLongID() == ChannelControl.getChannel().getLongID()){
             // TODO show text
         }
-        else {
-            // TODO manage notifs
-        }
     }
 }

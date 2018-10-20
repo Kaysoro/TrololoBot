@@ -2,7 +2,6 @@ package util;
 
 import controllers.ExceptionControl;
 import org.slf4j.LoggerFactory;
-import sx.blah.discord.api.internal.json.objects.EmbedObject;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.*;
 
@@ -63,22 +62,6 @@ public class Message {
                 throw e;
             } catch (Exception e) {
                 ExceptionControl.throwException("Send file - Error", e);
-            }
-        });
-    }
-
-    public static void sendEmbed(IChannel channel, EmbedObject content){
-        RequestBuffer.request(() -> {
-            try {
-                new MessageBuilder(DiscordClient.DISCORD())
-                        .withChannel(channel)
-                        .withEmbed(content)
-                        .build();
-            } catch(RateLimitException e){
-                LoggerFactory.getLogger(Message.class).warn(e.getMessage(), e);
-                throw e;
-            } catch (Exception e) {
-                ExceptionControl.throwException("Send embed - Error", e);
             }
         });
     }

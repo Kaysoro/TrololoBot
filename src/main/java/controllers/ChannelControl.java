@@ -1,17 +1,18 @@
 package controllers;
 
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.MessageHistory;
 import sx.blah.discord.util.PermissionUtils;
 import util.DiscordClient;
 import view.TrololoBot;
 
 import java.util.EnumSet;
 
-import static sx.blah.discord.handle.obj.Permissions.ATTACH_FILES;
-import static sx.blah.discord.handle.obj.Permissions.READ_MESSAGES;
-import static sx.blah.discord.handle.obj.Permissions.SEND_MESSAGES;
+import static sx.blah.discord.handle.obj.Permissions.*;
 
 public class ChannelControl {
+
+    private static final int MESSAGE_HISTORY_LIMIT = 20;
 
     private static IChannel channel;
 
@@ -22,6 +23,12 @@ public class ChannelControl {
     public static void setChannel(IChannel channel) {
         //  TODO clear panel messages
         ChannelControl.channel = channel;
+        if (channel != null && PermissionUtils.hasPermissions(channel, DiscordClient.DISCORD().getOurUser(),
+                EnumSet.of(READ_MESSAGES, READ_MESSAGE_HISTORY))){
+            MessageHistory history = channel.getMessageHistory(MESSAGE_HISTORY_LIMIT);
+            history.forEach(System.out::println);
+            // TODO Download 20 last messages if possible
+        }
         checkActionChannel(channel);
     }
 
@@ -37,8 +44,6 @@ public class ChannelControl {
             TrololoBot.getStage().getScene().lookup("#sendEmbed").setDisable(! attachFile);
             TrololoBot.getStage().getScene().lookup("#sendImage").setDisable(! attachFile);
             TrololoBot.getStage().getScene().lookup("#sendFile").setDisable(! attachFile);
-
-            // TODO Download 20 last messages if possible
         }
         else {
             TrololoBot.getStage().getScene().lookup("#myTextArea").setDisable(true);
