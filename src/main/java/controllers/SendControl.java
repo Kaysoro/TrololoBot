@@ -58,13 +58,13 @@ public class SendControl  implements Initializable {
     private void sendEmbed() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("../view/embed.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/view/embed.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Send Embed");
             stage.setResizable(false);
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/trolol.png")));
             stage.initOwner(TrololoBot.getStage());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();

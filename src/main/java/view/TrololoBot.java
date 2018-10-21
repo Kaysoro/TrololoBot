@@ -6,10 +6,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.slf4j.LoggerFactory;
 import util.DiscordClient;
 import view.tree.DiscordItem;
 
@@ -21,6 +23,21 @@ public class TrololoBot extends javafx.application.Application {
     private static Stage stage;
 
     public static void main(String[] args) {
+        try {
+            System.setProperty("file.encoding", "UTF-8");
+            java.lang.reflect.Field charset = java.nio.charset.Charset.class.getDeclaredField("defaultCharset");
+            charset.setAccessible(true);
+            charset.set(null, null);
+        } catch(Exception e){
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Error attempting to force UTF-8 encoding. Default system encoding used for later.");
+                alert.showAndWait();
+                LoggerFactory.getLogger(TrololoBot.class).error("main", e);
+            });
+        }
         launch(args);
     }
 
@@ -32,7 +49,7 @@ public class TrololoBot extends javafx.application.Application {
         Parent root = loader.load();
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle(Constants.name + " " + Constants.version);
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../images/trolol.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/trolol.png")));
         NotificationControl.disconnected();
         NotificationControl.updateGuildsNumber();
         NotificationControl.updateEvent(null);
